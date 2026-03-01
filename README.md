@@ -1,10 +1,12 @@
-# Travel & Event Concierge - A2A Multi-Agent Demo
+# Elevate Concierge - A2A Multi-Agent Travel Platform
 
 > **DISCLAIMER: THIS IS NOT AN OFFICIALLY SUPPORTED GOOGLE PRODUCT. THIS PROJECT IS INTENDED FOR DEMONSTRATION PURPOSES ONLY.**
 
-A Travel & Event Concierge that orchestrates **5 specialized agents** across **3 different frameworks** using the [A2A (Agent-to-Agent) protocol](https://github.com/google/A2A). The concierge agent (Google ADK) delegates tasks to remote agents deployed on Cloud Run, coordinating hotel, flight, train, event ticket, and restaurant reservations across Europe.
+A Travel & Event Concierge that orchestrates **6 specialized agents** across **3 different frameworks** using the [A2A (Agent-to-Agent) protocol](https://github.com/google/A2A). The concierge agent (Google ADK on Vertex AI) delegates tasks to remote agents deployed on Cloud Run, coordinating hotel, flight, train, event ticket, restaurant, and merchandise reservations across Europe.
 
-Includes a **Pixel Art visualization UI** showing real-time agent orchestration with animated characters, traveling envelopes, and speech bubbles.
+Includes a **Final Fantasy 2 NES-style pixel art UI** showing real-time agent orchestration with animated characters, black outlines, directional sprites, walk cycles, and speech bubbles.
+
+![Elevate Concierge - Pixel Art UI](docs/screenshot.png)
 
 ## Architecture
 
@@ -16,13 +18,13 @@ Includes a **Pixel Art visualization UI** showing real-time agent orchestration 
                      │     Gemini 2.5 Flash      │
                      └─────────┬────────────────┘
                                │ A2A Protocol
-          ┌──────────┬─────────┼─────────┬──────────┐
-          │          │         │         │          │
-     ┌────▼───┐ ┌───▼────┐ ┌──▼───┐ ┌───▼───┐ ┌───▼────────┐
-     │ Hotel  │ │ Flight │ │Train │ │Ticket │ │ Restaurant │
-     │LangGr. │ │ CrewAI │ │LangG.│ │CrewAI │ │ Google GenAI│
-     └────────┘ └────────┘ └──────┘ └───────┘ └────────────┘
-          Cloud Run (5 services)
+          ┌──────────┬─────────┼──────────┬──────────┬──────────┐
+          │          │         │          │          │          │
+     ┌────▼───┐ ┌───▼────┐ ┌──▼───┐ ┌────▼───┐ ┌───▼──────┐ ┌▼─────────┐
+     │ Hotel  │ │ Flight │ │Train │ │ Ticket │ │Restaurant│ │   Shop   │
+     │LangGr. │ │ CrewAI │ │LangG.│ │ CrewAI │ │  GenAI   │ │  GenAI   │
+     └────────┘ └────────┘ └──────┘ └────────┘ └──────────┘ └──────────┘
+                      Cloud Run (6 services)
 ```
 
 | Agent | Framework | Description |
@@ -32,12 +34,23 @@ Includes a **Pixel Art visualization UI** showing real-time agent orchestration 
 | Train | LangGraph | Train ticket reservations |
 | Ticket | CrewAI | Event tickets (sports, concerts, theatre) |
 | Restaurant | Google GenAI | Restaurant reservations |
+| Merchandise | Google GenAI | Fan shop merchandise (jerseys, scarves, collectibles) |
+
+## Pixel Art Visualization
+
+The main UI features a split-screen interface: chat on the left, animated pixel art village on the right. When you send a message, the concierge character walks to the relevant agent's building, triggers a reaction, and returns to the plaza with the response.
+
+**Visual style:**
+- NES-authentic color palette (~35 colors)
+- Black pixel outlines on all sprites and buildings
+- 4-frame walk cycle with directional sprites (face, left, right, back)
+- Ground shadows and idle bobbing animation
+- Three ground types: cobblestone paths, dirt around buildings, grass in open areas
+- Roof textures, window frames, and building details
 
 ## Two UIs Available
 
 ### 1. Pixel Art Visualization UI (recommended)
-
-Split-screen interface with chat on the left and animated pixel art canvas on the right, showing the concierge coordinating agents in real-time.
 
 ```bash
 uv run python pixel_ui_server.py
@@ -45,8 +58,6 @@ uv run python pixel_ui_server.py
 ```
 
 ### 2. Gradio Chat UI
-
-Simple chat interface powered by Gradio.
 
 ```bash
 uv run python purchasing_concierge_ui.py
@@ -81,7 +92,7 @@ uv sync
 bash deploy_agents_cloudrun.sh
 ```
 
-This deploys all 5 agents. Note the URLs printed for each service.
+This deploys all 6 agents. Note the URLs printed for each service.
 
 ### 2. Configure Environment
 
@@ -97,6 +108,7 @@ FLIGHT_AGENT_URL=https://flight-agent-XXXXX.us-central1.run.app
 TRAIN_AGENT_URL=https://train-agent-XXXXX.us-central1.run.app
 TICKET_AGENT_URL=https://ticket-agent-XXXXX.us-central1.run.app
 RESTAURANT_AGENT_URL=https://restaurant-agent-XXXXX.us-central1.run.app
+MERCHANDISE_AGENT_URL=https://merchandise-agent-XXXXX.us-central1.run.app
 ```
 
 ### 3. Deploy Concierge to Agent Engine
@@ -132,20 +144,23 @@ A2A-Agent-Engine/
 ├── deploy_agents_cloudrun.sh       # Deploy remote agents to Cloud Run
 ├── purchasing_concierge/           # Concierge agent (Google ADK)
 │   ├── agent.py                    # Agent factory
-│   ├── purchasing_agent.py         # Orchestrator logic
+│   ├── purchasing_agent.py         # Orchestrator logic + send_task tool
 │   └── remote_agent_connection.py  # A2A client wrapper
 ├── static/                         # Pixel Art UI frontend
 │   ├── index.html
 │   ├── css/style.css
 │   └── js/
-│       ├── sprites.js              # Pixel art character sprites
-│       ├── animation.js            # Canvas animation engine
+│       ├── sprites.js              # NES palette, buildings, character sprites
+│       ├── animation.js            # Canvas engine, walker, NPC patrols
 │       ├── chat.js                 # Chat panel
 │       └── app.js                  # WebSocket + event routing
-└── remote_travel_agents/           # 5 remote agents
+├── docs/
+│   └── screenshot.png              # UI screenshot
+└── remote_travel_agents/           # 6 remote agents
     ├── hotel_agent/                # LangGraph
     ├── flight_agent/               # CrewAI
     ├── train_agent/                # LangGraph
     ├── ticket_agent/               # CrewAI
-    └── restaurant_agent/           # Google GenAI
+    ├── restaurant_agent/           # Google GenAI
+    └── merchandise_agent/          # Google GenAI
 ```

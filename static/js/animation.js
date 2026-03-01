@@ -47,6 +47,7 @@ class ConciergeWalker {
         this.speed = 2.5;
         this.onArrive = null;
         this.queue = [];
+        this.idleTimer = 0;
     }
 
     _pathTo(agentKey) {
@@ -56,7 +57,7 @@ class ConciergeWalker {
             train:      [{ x: 240, y: 112 }, { x: 400, y: 112 }, { x: 400, y: 100 }],
             ticket:     [{ x: 240, y: 352 }, { x: 80, y: 352 },  { x: 80, y: 380 }],
             restaurant: [{ x: 240, y: 352 }, { x: 400, y: 352 }, { x: 400, y: 380 }],
-            merchandise:[{ x: 240, y: 352 }, { x: 240, y: 400 }],
+            merchandise:[{ x: 240, y: 352 }, { x: 240, y: 380 }],
         };
         return paths[agentKey] || [];
     }
@@ -103,8 +104,10 @@ class ConciergeWalker {
     update() {
         if (!this.walking || this.waypoints.length === 0) {
             this.walkFrame = 0;
+            this.idleTimer++;
             return;
         }
+        this.idleTimer = 0;
         const target = this.waypoints[this.wpIndex];
         const dx = target.x - this.x;
         const dy = target.y - this.y;
@@ -133,7 +136,7 @@ class ConciergeWalker {
         this.walkTimer++;
         if (this.walkTimer >= 8) {
             this.walkTimer = 0;
-            this.walkFrame = this.walkFrame === 1 ? 2 : 1;
+            this.walkFrame = (this.walkFrame + 1) % 4;
         }
         AGENTS.concierge.x = this.x;
         AGENTS.concierge.y = this.y;
@@ -156,6 +159,7 @@ class NPCAnimator {
         this.patrolMax = 16;
         this.paused = false;
         this.pauseTimer = 0;
+        this.idleTimer = 0;
         this.exclamation = false;
         this.exclTimer = 0;
         this.checkmark = false;
@@ -182,8 +186,10 @@ class NPCAnimator {
             this.pauseTimer--;
             if (this.pauseTimer === 0) this.paused = false;
             this.walkFrame = 0;
+            this.idleTimer++;
             return;
         }
+        this.idleTimer = 0;
 
         this.x += this.dir * 0.3;
         this.patrolDist += 0.3;
@@ -195,9 +201,9 @@ class NPCAnimator {
         }
 
         this.walkTimer++;
-        if (this.walkTimer >= 12) {
+        if (this.walkTimer >= 10) {
             this.walkTimer = 0;
-            this.walkFrame = this.walkFrame === 1 ? 2 : 1;
+            this.walkFrame = (this.walkFrame + 1) % 4;
         }
     }
 }
@@ -377,11 +383,11 @@ class AgentVisualization {
         this.updateStatusDot(agentKey, 'done');
         this.npcs[agentKey].showDone();
         this.addBubble(agentKey, responseSummary, AGENTS[agentKey].color);
-        emitParticles(this.particles, AGENTS[agentKey].x, AGENTS[agentKey].y, '#66bb6a', 8);
+        emitParticles(this.particles, AGENTS[agentKey].x, AGENTS[agentKey].y, NES_PALETTE.lightGreen, 8);
 
         // Walk concierge back to plaza
         this.walker.returnToPlaza(() => {
-            emitParticles(this.particles, this.walker.x, this.walker.y, '#7C3AED', 6);
+            emitParticles(this.particles, this.walker.x, this.walker.y, '#6844FC', 6);
         });
 
         setTimeout(() => {
@@ -391,15 +397,18 @@ class AgentVisualization {
     }
 
     onFinalResponse() {
-        this.stateManager.setState('concierge', AgentState.DONE);
-        this.updateStatusDot('concierge', 'done');
-        this.flashAlpha = 0.3;
-        emitParticles(this.particles, this.walker.x, this.walker.y, '#7C3AED', 20);
+        // Return to plaza center FIRST, then trigger effects
+        this.walker.returnToPlaza(() => {
+            this.stateManager.setState('concierge', AgentState.DONE);
+            this.updateStatusDot('concierge', 'done');
+            this.flashAlpha = 0.3;
+            emitParticles(this.particles, this.walker.x, this.walker.y, '#6844FC', 20);
 
-        setTimeout(() => {
-            this.stateManager.setState('concierge', AgentState.IDLE);
-            this.updateStatusDot('concierge', 'idle');
-        }, 2000);
+            setTimeout(() => {
+                this.stateManager.setState('concierge', AgentState.IDLE);
+                this.updateStatusDot('concierge', 'idle');
+            }, 2000);
+        });
     }
 
     resolveAgentKey(agentName) {
@@ -463,6 +472,13 @@ class AgentVisualization {
         chars.forEach(ch => {
             const state = this.stateManager.getState(ch.key);
 
+            // Y offset: walk bounce or idle bob
+            const yBob = ch.walking
+                ? ((ch.walkFrame === 1 || ch.walkFrame === 3) ? -1 : 0)
+                : Math.round(Math.sin(ch.idleTimer * 0.05));
+            const drawX = ch.x;
+            const drawY = ch.y + yBob;
+
             // Working glow
             if (state === AgentState.WORKING) {
                 ctx.save();
@@ -471,28 +487,38 @@ class AgentVisualization {
                 ctx.fillStyle = AGENTS[ch.key].color;
                 ctx.globalAlpha = 0.12;
                 ctx.beginPath();
-                ctx.arc(ch.x, ch.y - 16, 22, 0, Math.PI * 2);
+                ctx.arc(drawX, drawY - 16, 22, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.restore();
             }
             if (state === AgentState.DONE) {
                 ctx.save();
-                ctx.shadowColor = '#66bb6a';
+                ctx.shadowColor = NES_PALETTE.lightGreen;
                 ctx.shadowBlur = 10;
-                ctx.fillStyle = '#66bb6a';
+                ctx.fillStyle = NES_PALETTE.lightGreen;
                 ctx.globalAlpha = 0.12;
                 ctx.beginPath();
-                ctx.arc(ch.x, ch.y - 16, 22, 0, Math.PI * 2);
+                ctx.arc(drawX, drawY - 16, 22, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.restore();
             }
 
-            drawCharacter(ctx, ch.x, ch.y, ch.key, ch.walkFrame, ch.dir);
-            drawAgentLabel(ctx, ch.x, ch.y, AGENTS[ch.key].label, AGENTS[ch.key].color);
+            // Shadow (drawn BEFORE sprite)
+            drawCharacterShadow(ctx, drawX, drawY);
+
+            // Outline: draw sprite 4 times in black at 1px offsets
+            const outlineOffsets = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+            outlineOffsets.forEach(([dx, dy]) => {
+                drawCharacter(ctx, drawX + dx, drawY + dy, ch.key, ch.walkFrame, ch.dir, NES_PALETTE.black);
+            });
+
+            // Normal sprite on top
+            drawCharacter(ctx, drawX, drawY, ch.key, ch.walkFrame, ch.dir);
+            drawAgentLabel(ctx, drawX, drawY, AGENTS[ch.key].label, AGENTS[ch.key].color);
 
             // Exclamation / checkmark
-            if (ch.npc && ch.npc.exclamation) drawExclamation(ctx, ch.x, ch.y - 38);
-            if (ch.npc && ch.npc.checkmark) drawCheckmark(ctx, ch.x, ch.y - 38);
+            if (ch.npc && ch.npc.exclamation) drawExclamation(ctx, drawX, drawY - 38);
+            if (ch.npc && ch.npc.checkmark) drawCheckmark(ctx, drawX, drawY - 38);
         });
 
         // 4. Overlays
@@ -502,7 +528,7 @@ class AgentVisualization {
         // Flash
         if (this.flashAlpha > 0) {
             ctx.save();
-            ctx.fillStyle = '#7C3AED';
+            ctx.fillStyle = '#6844FC';
             ctx.globalAlpha = this.flashAlpha;
             ctx.fillRect(0, 0, 480, 480);
             ctx.restore();
@@ -519,6 +545,8 @@ class AgentVisualization {
             walkFrame: this.walker.walkFrame,
             dir: this.walker.direction,
             npc: null,
+            walking: this.walker.walking,
+            idleTimer: this.walker.idleTimer,
         });
         // NPCs
         Object.entries(this.npcs).forEach(([k, npc]) => {
@@ -529,6 +557,8 @@ class AgentVisualization {
                 walkFrame: npc.walkFrame,
                 dir: npc.dir > 0 ? 2 : 1,
                 npc: npc,
+                walking: !npc.paused,
+                idleTimer: npc.idleTimer,
             });
         });
         chars.sort((a, b) => a.y - b.y);
@@ -539,7 +569,7 @@ class AgentVisualization {
         const pulse = 0.15 + Math.sin(this.frame * 0.04) * 0.05;
         ctx.save();
         ctx.globalAlpha = pulse;
-        ctx.fillStyle = '#fff9c4';
+        ctx.fillStyle = NES_PALETTE.paleYellow;
         DECORATIONS.lampposts.forEach(l => {
             ctx.beginPath();
             ctx.arc(l.x + 2, l.y + 5, 10, 0, Math.PI * 2);
@@ -552,7 +582,7 @@ class AgentVisualization {
         // Small smoke particles from restaurant chimney
         const r = BUILDINGS.restaurant;
         if (this.frame % 15 === 0) {
-            emitParticles(this.particles, r.x + 80, r.y - 4, '#9e9e9e', 2);
+            emitParticles(this.particles, r.x + 80, r.y - 4, NES_PALETTE.gray, 2);
         }
     }
 
