@@ -124,7 +124,7 @@ Current active agent: {current_agent["active_agent"]}
                 try:
                     card = await card_resolver.get_agent_card()
                     remote_connection = RemoteAgentConnections(
-                        agent_card=card, agent_url=card.url
+                        agent_card=card, agent_url=address
                     )
                     self.remote_agent_connections[card.name] = remote_connection
                     self.cards[card.name] = card
