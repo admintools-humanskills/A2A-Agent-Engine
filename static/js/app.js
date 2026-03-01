@@ -37,7 +37,7 @@
     function resizeCanvas() {
         const canvas = document.getElementById('pixel-canvas');
         const panel = document.getElementById('canvas-panel');
-        const size = Math.min(panel.clientWidth - 20, panel.clientHeight - 60, 480);
+        const size = Math.min(panel.clientWidth - 20, panel.clientHeight - 60);
         canvas.style.width = size + 'px';
         canvas.style.height = size + 'px';
     }
