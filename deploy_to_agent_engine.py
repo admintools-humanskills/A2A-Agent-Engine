@@ -46,6 +46,7 @@ DEPLOY_CONFIG = dict(
         "google-cloud-aiplatform[agent_engines]",
         "google-adk==1.15.1",
         "a2a-sdk==0.2.16",
+        "requests",
     ],
     extra_packages=[
         "./purchasing_concierge",

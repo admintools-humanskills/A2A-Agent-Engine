@@ -129,8 +129,8 @@ Current active agent: {current_agent["active_agent"]}
                     )
                     self.remote_agent_connections[card.name] = remote_connection
                     self.cards[card.name] = card
-                except httpx.ConnectError:
-                    print(f"ERROR: Failed to get agent card from : {address}")
+                except Exception as e:
+                    print(f"ERROR: Failed to get agent card from {address}: {type(e).__name__}: {e}")
             agent_info = []
             for ra in self.list_remote_agents():
                 agent_info.append(json.dumps(ra))
@@ -175,14 +175,22 @@ Current active agent: {current_agent["active_agent"]}
             A dictionary of JSON data.
         """
         if agent_name not in self.remote_agent_connections:
-            raise ValueError(f"Agent {agent_name} not found")
+            available = list(self.remote_agent_connections.keys())
+            return {
+                "agent_name": agent_name,
+                "status": "error",
+                "response": f"Agent '{agent_name}' not found. Available agents: {available}",
+            }
         state = tool_context.state
         state["active_agent"] = agent_name
         client = self.remote_agent_connections[agent_name]
         if not client:
-            raise ValueError(f"Client not available for {agent_name}")
+            return {
+                "agent_name": agent_name,
+                "status": "error",
+                "response": f"Client not available for {agent_name}",
+            }
         session_id = state["session_id"]
-        task: Task
         message_id = ""
         metadata = {}
         if "input_message_metadata" in state:
@@ -197,7 +205,7 @@ Current active agent: {current_agent["active_agent"]}
                 "role": "user",
                 "parts": [
                     {"type": "text", "text": task}
-                ],  # Use the 'task' argument here
+                ],
                 "messageId": message_id,
                 "contextId": session_id,
             },
@@ -206,21 +214,40 @@ Current active agent: {current_agent["active_agent"]}
         message_request = SendMessageRequest(
             id=message_id, params=MessageSendParams.model_validate(payload)
         )
-        send_response: SendMessageResponse = client.send_message(
-            message_request=message_request
-        )
+
+        try:
+            send_response: SendMessageResponse = client.send_message(
+                message_request=message_request
+            )
+        except Exception as e:
+            print(f"ERROR calling {agent_name}: {type(e).__name__}: {e}")
+            return {
+                "agent_name": agent_name,
+                "status": "error",
+                "response": f"Failed to contact {agent_name}: {type(e).__name__}: {e}",
+            }
+
         print(
             "send_response",
             send_response.model_dump_json(exclude_none=True, indent=2),
         )
 
         if not isinstance(send_response.root, SendMessageSuccessResponse):
-            print("received non-success response. Aborting get task ")
-            return None
+            error_detail = send_response.model_dump_json(exclude_none=True)
+            print(f"Non-success response from {agent_name}: {error_detail}")
+            return {
+                "agent_name": agent_name,
+                "status": "error",
+                "response": f"Agent {agent_name} returned an error: {error_detail}",
+            }
 
         if not isinstance(send_response.root.result, Task):
-            print("received non-task response. Aborting get task ")
-            return None
+            print(f"Non-task response from {agent_name}: {type(send_response.root.result)}")
+            return {
+                "agent_name": agent_name,
+                "status": "error",
+                "response": f"Agent {agent_name} returned unexpected response type: {type(send_response.root.result).__name__}",
+            }
 
         task_result = send_response.root.result
 
