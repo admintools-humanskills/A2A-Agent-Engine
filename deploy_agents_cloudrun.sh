@@ -117,6 +117,26 @@ gcloud run services update restaurant-agent \
     --update-env-vars HOST_OVERRIDE=$RESTAURANT_URL
 
 echo ""
+echo "=== Deploying Merchandise Agent (Google GenAI SDK) ==="
+gcloud run deploy merchandise-agent \
+    --source remote_travel_agents/merchandise_agent \
+    --port=8080 \
+    --allow-unauthenticated \
+    --min-instances 1 \
+    --region $REGION \
+    --project $PROJECT_ID \
+    --update-env-vars GOOGLE_CLOUD_LOCATION=$REGION \
+    --update-env-vars GOOGLE_CLOUD_PROJECT=$PROJECT_ID
+
+MERCHANDISE_URL=$(gcloud run services describe merchandise-agent --region $REGION --project $PROJECT_ID --format='value(status.url)')
+echo "Merchandise Agent deployed at: $MERCHANDISE_URL"
+
+gcloud run services update merchandise-agent \
+    --region $REGION \
+    --project $PROJECT_ID \
+    --update-env-vars HOST_OVERRIDE=$MERCHANDISE_URL
+
+echo ""
 echo "=========================================="
 echo "All agents deployed successfully!"
 echo "=========================================="
@@ -127,6 +147,7 @@ echo "  FLIGHT_AGENT_URL=$FLIGHT_URL"
 echo "  TRAIN_AGENT_URL=$TRAIN_URL"
 echo "  TICKET_AGENT_URL=$TICKET_URL"
 echo "  RESTAURANT_AGENT_URL=$RESTAURANT_URL"
+echo "  MERCHANDISE_AGENT_URL=$MERCHANDISE_URL"
 echo ""
 echo "Verify agent cards:"
 echo "  curl $HOTEL_URL/.well-known/agent.json"
@@ -134,5 +155,6 @@ echo "  curl $FLIGHT_URL/.well-known/agent.json"
 echo "  curl $TRAIN_URL/.well-known/agent.json"
 echo "  curl $TICKET_URL/.well-known/agent.json"
 echo "  curl $RESTAURANT_URL/.well-known/agent.json"
+echo "  curl $MERCHANDISE_URL/.well-known/agent.json"
 echo ""
 echo "Add these URLs to your .env file for the concierge deployment."

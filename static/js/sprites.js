@@ -24,6 +24,7 @@ const CHAR_PAL = {
     train:      { skin:'#f5c6a0', hair:'#5d4037', body:'#388e3c', bodyDark:'#2e7d32', eyes:'#1a1a1a', acc:'#fdd835', hat:'#1b5e20', hatBrim:'#2e7d32' },
     ticket:     { skin:'#8d6e63', hair:'#1a1a1a', body:'#e65100', bodyDark:'#bf360c', eyes:'#1a1a1a', acc:'#ffffff' },
     restaurant: { skin:'#f5c6a0', hair:'#4a3728', body:'#d32f2f', bodyDark:'#b71c1c', eyes:'#1a1a1a', acc:'#ffffff', toque:true },
+    merchandise: { skin:'#d4a574', hair:'#1a1a1a', body:'#9c27b0', bodyDark:'#7b1fa2', eyes:'#1a1a1a', acc:'#fdd835' },
 };
 
 // ==================== Ground ====================
@@ -49,6 +50,8 @@ function isPathTile(tx, ty) {
     if (x >= 4 && x <= 5 && y >= 22 && y <= 24) return true;
     // Restaurant side path (cols 24-25, rows 22-24)
     if (x >= 24 && x <= 25 && y >= 22 && y <= 24) return true;
+    // Merchandise shop side path (cols 14-15, rows 22-26)
+    if (x >= 14 && x <= 15 && y >= 22 && y <= 26) return true;
     // Plaza (cols 12-17, rows 13-17)
     if (x >= 12 && x <= 17 && y >= 13 && y <= 17) return true;
     return false;
@@ -254,6 +257,57 @@ function drawRestaurantBuilding(ctx, x, y) {
     ctx.fillStyle = '#5d4037';
     ctx.fillRect(x + 10, y + 54, 5, 4);
     ctx.fillRect(x + 30, y + 54, 5, 4);
+}
+
+function drawMerchandiseShop(ctx, x, y) {
+    // Main wall 80x50
+    ctx.fillStyle = ENV.wall;
+    ctx.fillRect(x, y + 14, 80, 50);
+    // Striped awning (purple/white)
+    for (let i = 0; i < 10; i++) {
+        ctx.fillStyle = (i % 2 === 0) ? '#9c27b0' : '#ffffff';
+        ctx.fillRect(x + i * 8, y + 8, 8, 8);
+    }
+    // Shop window (left) - display jersey
+    ctx.fillStyle = '#e1bee7';
+    ctx.fillRect(x + 6, y + 22, 24, 20);
+    ctx.strokeStyle = '#5d4037'; ctx.lineWidth = 1;
+    ctx.strokeRect(x + 6, y + 22, 24, 20);
+    // Jersey silhouette in window
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(x + 13, y + 25, 10, 12);
+    ctx.fillStyle = '#9c27b0';
+    ctx.fillRect(x + 14, y + 26, 8, 10);
+    ctx.fillRect(x + 11, y + 26, 3, 4);
+    ctx.fillRect(x + 22, y + 26, 3, 4);
+    // Door
+    ctx.fillStyle = '#5d4037';
+    ctx.fillRect(x + 34, y + 24, 14, 28);
+    ctx.fillStyle = '#fdd835';
+    ctx.fillRect(x + 44, y + 36, 2, 3);
+    // Shop window (right) - display scarf
+    ctx.fillStyle = '#e1bee7';
+    ctx.fillRect(x + 52, y + 22, 24, 20);
+    ctx.strokeStyle = '#5d4037';
+    ctx.strokeRect(x + 52, y + 22, 24, 20);
+    // Scarf in window
+    ctx.fillStyle = '#fdd835';
+    ctx.fillRect(x + 57, y + 28, 14, 3);
+    ctx.fillStyle = '#9c27b0';
+    ctx.fillRect(x + 55, y + 31, 4, 6);
+    ctx.fillRect(x + 67, y + 31, 4, 6);
+    // Flag on roof
+    ctx.fillStyle = '#616161';
+    ctx.fillRect(x + 68, y - 6, 2, 16);
+    ctx.fillStyle = '#fdd835';
+    ctx.fillRect(x + 70, y - 6, 8, 6);
+    ctx.fillStyle = '#9c27b0';
+    ctx.fillRect(x + 70, y - 3, 8, 3);
+    // Star on sign
+    ctx.fillStyle = '#fdd835';
+    ctx.font = 'bold 8px "Press Start 2P", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('\u2605', x + 40, y + 6);
 }
 
 // ==================== Decorations ====================
@@ -464,6 +518,7 @@ const AGENTS = {
     train:      { x: 400, y: 100, color: '#388e3c', label: 'Train',     icon: '\u2634' },
     ticket:     { x: 80,  y: 380, color: '#e65100', label: 'Ticket',    icon: '\u2660' },
     restaurant: { x: 400, y: 380, color: '#d32f2f', label: 'Restaurant',icon: '\u2615' },
+    merchandise:{ x: 240, y: 400, color: '#9c27b0', label: 'Shop',       icon: '\u2605' },
 };
 
 const BUILDINGS = {
@@ -472,6 +527,7 @@ const BUILDINGS = {
     train:      { x: 368, y: 16,  draw: drawTrainStation },
     ticket:     { x: 24,  y: 336, draw: drawTheater },
     restaurant: { x: 336, y: 340, draw: drawRestaurantBuilding },
+    merchandise:{ x: 200, y: 350, draw: drawMerchandiseShop },
 };
 
 const DECORATIONS = {

@@ -55,6 +55,7 @@ remote_app = agent_engines.create(
         "TRAIN_AGENT_URL": os.environ["TRAIN_AGENT_URL"],
         "TICKET_AGENT_URL": os.environ["TICKET_AGENT_URL"],
         "RESTAURANT_AGENT_URL": os.environ["RESTAURANT_AGENT_URL"],
+        "MERCHANDISE_AGENT_URL": os.environ["MERCHANDISE_AGENT_URL"],
     },
 )
 

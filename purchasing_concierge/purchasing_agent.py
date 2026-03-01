@@ -62,8 +62,8 @@ class PurchasingAgent:
             before_model_callback=self.before_model_callback,
             before_agent_callback=self.before_agent_callback,
             description=(
-                "Travel & Event concierge that orchestrates hotel, flight, train, event ticket"
-                " and restaurant reservations across Europe via specialized agents."
+                "Travel & Event concierge that orchestrates hotel, flight, train, event ticket,"
+                " restaurant reservations and merchandise/fan shop orders across Europe via specialized agents."
             ),
             tools=[
                 self.send_task,
@@ -72,8 +72,8 @@ class PurchasingAgent:
 
     def root_instruction(self, context: ReadonlyContext) -> str:
         current_agent = self.check_active_agent(context)
-        return f"""You are an expert travel and event concierge that orchestrates travel planning and reservations across Europe.
-You delegate user requests to the appropriate specialized remote agents: hotels, flights, trains, event tickets, and restaurants.
+        return f"""You are an expert travel and event concierge that orchestrates travel planning, reservations and fan shop purchases across Europe.
+You delegate user requests to the appropriate specialized remote agents: hotels, flights, trains, event tickets, restaurants, and merchandise/fan shop.
 
 Covered cities: Madrid, Barcelona, Paris, London, Rome.
 
@@ -91,6 +91,7 @@ Execution:
 - Do not give irrelevant context to a remote agent. For example, hotel details are not relevant for the flight agent.
 - Never ask booking confirmation to the remote agent.
 - After all agents have responded, present a complete itinerary summary to the user with all bookings, references, and total costs.
+- For merchandise requests (jerseys, scarves, caps, fan shop items, souvenirs), delegate to the merchandise agent.
 
 Please rely on tools to address the request, and don't make up the response. If you are not sure, please ask the user for more details.
 Focus on the most recent parts of the conversation primarily.

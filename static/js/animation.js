@@ -56,6 +56,7 @@ class ConciergeWalker {
             train:      [{ x: 240, y: 112 }, { x: 400, y: 112 }, { x: 400, y: 100 }],
             ticket:     [{ x: 240, y: 352 }, { x: 80, y: 352 },  { x: 80, y: 380 }],
             restaurant: [{ x: 240, y: 352 }, { x: 400, y: 352 }, { x: 400, y: 380 }],
+            merchandise:[{ x: 240, y: 352 }, { x: 240, y: 400 }],
         };
         return paths[agentKey] || [];
     }
@@ -313,7 +314,7 @@ class AgentVisualization {
 
         // NPC animators
         this.npcs = {};
-        ['hotel', 'flight', 'train', 'ticket', 'restaurant'].forEach(k => {
+        ['hotel', 'flight', 'train', 'ticket', 'restaurant', 'merchandise'].forEach(k => {
             this.npcs[k] = new NPCAnimator(k);
         });
 
@@ -329,7 +330,7 @@ class AgentVisualization {
 
     initStatusBar() {
         const bar = document.getElementById('status-bar');
-        ['concierge', 'hotel', 'flight', 'train', 'ticket', 'restaurant'].forEach(k => {
+        ['concierge', 'hotel', 'flight', 'train', 'ticket', 'restaurant', 'merchandise'].forEach(k => {
             const item = document.createElement('div');
             item.className = 'status-item';
             item.innerHTML = `<span class="status-dot idle" id="status-${k}"></span><span>${AGENTS[k].label}</span>`;
@@ -403,7 +404,7 @@ class AgentVisualization {
 
     resolveAgentKey(agentName) {
         const name = agentName.toLowerCase().replace(/[^a-z]/g, '');
-        const keys = ['hotel', 'flight', 'train', 'ticket', 'restaurant'];
+        const keys = ['hotel', 'flight', 'train', 'ticket', 'restaurant', 'merchandise'];
         for (const key of keys) {
             if (name.includes(key)) return key;
         }
@@ -412,6 +413,7 @@ class AgentVisualization {
         if (name.includes('rail') || name.includes('tgv') || name.includes('sncf')) return 'train';
         if (name.includes('event') || name.includes('match') || name.includes('concert') || name.includes('billet')) return 'ticket';
         if (name.includes('food') || name.includes('dine') || name.includes('dining') || name.includes('bistro')) return 'restaurant';
+        if (name.includes('merch') || name.includes('jersey') || name.includes('shop') || name.includes('scarf') || name.includes('fan') || name.includes('souvenir')) return 'merchandise';
         return null;
     }
 
