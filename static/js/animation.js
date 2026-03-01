@@ -381,7 +381,7 @@ class AgentVisualization {
 
         // Walk concierge back to plaza
         this.walker.returnToPlaza(() => {
-            emitParticles(this.particles, this.walker.x, this.walker.y, '#e8b830', 6);
+            emitParticles(this.particles, this.walker.x, this.walker.y, '#7C3AED', 6);
         });
 
         setTimeout(() => {
@@ -394,7 +394,7 @@ class AgentVisualization {
         this.stateManager.setState('concierge', AgentState.DONE);
         this.updateStatusDot('concierge', 'done');
         this.flashAlpha = 0.3;
-        emitParticles(this.particles, this.walker.x, this.walker.y, '#e8b830', 20);
+        emitParticles(this.particles, this.walker.x, this.walker.y, '#7C3AED', 20);
 
         setTimeout(() => {
             this.stateManager.setState('concierge', AgentState.IDLE);
@@ -502,7 +502,7 @@ class AgentVisualization {
         // Flash
         if (this.flashAlpha > 0) {
             ctx.save();
-            ctx.fillStyle = '#e8b830';
+            ctx.fillStyle = '#7C3AED';
             ctx.globalAlpha = this.flashAlpha;
             ctx.fillRect(0, 0, 480, 480);
             ctx.restore();

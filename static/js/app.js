@@ -24,7 +24,7 @@
         viz = new AgentVisualization(canvas);
 
         // Welcome message
-        chat.addSystemMessage('Welcome! Ask me to book flights, hotels, trains, event tickets, restaurants or fan shop merchandise across Europe.');
+        chat.addSystemMessage('Welcome to Elevate Concierge! Ask me to book flights, hotels, trains, event tickets, restaurants or fan shop merchandise across Europe.');
 
         // Connect WebSocket
         connectWebSocket();

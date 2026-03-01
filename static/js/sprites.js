@@ -18,7 +18,7 @@ const ENV = {
 };
 
 const CHAR_PAL = {
-    concierge:  { skin:'#f5c6a0', hair:'#4a3728', body:'#e8b830', bodyDark:'#c49a20', eyes:'#2c1810', acc:'#ef5350' },
+    concierge:  { skin:'#f5c6a0', hair:'#4a3728', body:'#7C3AED', bodyDark:'#5B21B6', eyes:'#2c1810', acc:'#ef5350' },
     hotel:      { skin:'#f5c6a0', hair:'#2c1810', body:'#1565c0', bodyDark:'#0d47a1', eyes:'#1a1a1a', acc:'#e8b830' },
     flight:     { skin:'#d4a574', hair:'#1a1a1a', body:'#4fc3f7', bodyDark:'#0288d1', eyes:'#1a1a1a', acc:'#ffffff', hat:'#0d47a1', hatBrim:'#1565c0' },
     train:      { skin:'#f5c6a0', hair:'#5d4037', body:'#388e3c', bodyDark:'#2e7d32', eyes:'#1a1a1a', acc:'#fdd835', hat:'#1b5e20', hatBrim:'#2e7d32' },
@@ -503,16 +503,27 @@ function drawCheckmark(ctx, x, y) {
 }
 
 function drawAgentLabel(ctx, x, y, label, color) {
-    ctx.fillStyle = color;
     ctx.font = '7px "Press Start 2P", monospace';
     ctx.textAlign = 'center';
+    const tw = ctx.measureText(label).width;
+    const pad = 4;
+    const bx = x - tw / 2 - pad;
+    const by = y + 22 - 7 - 1;
+    const bw = tw + pad * 2;
+    const bh = 7 + pad;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+    ctx.fillRect(bx, by, bw, bh);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.strokeRect(bx, by, bw, bh);
+    ctx.fillStyle = color;
     ctx.fillText(label, x, y + 22);
 }
 
 // ==================== Agent Registry ====================
 
 const AGENTS = {
-    concierge:  { x: 240, y: 240, color: '#e8b830', label: 'Concierge', icon: '\u2606' },
+    concierge:  { x: 240, y: 240, color: '#7C3AED', label: 'Concierge', icon: '\u2606' },
     hotel:      { x: 64,  y: 100, color: '#1565c0', label: 'Hotel',     icon: '\u2302' },
     flight:     { x: 240, y: 100, color: '#4fc3f7', label: 'Flight',    icon: '\u2708' },
     train:      { x: 400, y: 100, color: '#388e3c', label: 'Train',     icon: '\u2634' },
