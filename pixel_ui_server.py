@@ -65,18 +65,26 @@ def run_stream_query(remote_app, user_id: str, session_id: str, message: str, qu
             session_id=session_id,
             message=message,
         ):
-            print(f"[DEBUG] Event received: {json.dumps(event, indent=2, default=str)[:500]}")
             parts = event.get("content", {}).get("parts", [])
             if not parts:
                 print("[DEBUG] No parts in event, skipping")
                 continue
 
             for part in parts:
-                print(f"[DEBUG] Part keys: {list(part.keys())}")
+                part_type = "unknown"
+                if part.get("function_call"):
+                    part_type = "function_call"
+                elif part.get("function_response"):
+                    part_type = "function_response"
+                elif part.get("text"):
+                    part_type = "text"
+                print(f"[DEBUG] Part type={part_type}, keys={list(part.keys())}")
+
                 if part.get("function_call"):
                     fc = part["function_call"]
                     fn_name = fc.get("name", "")
                     fn_args = fc.get("args", {})
+                    print(f"[DEBUG] function_call name={fn_name}, agent_name={fn_args.get('agent_name','?')}")
 
                     # send_task calls contain agent_name and task
                     agent_name = fn_args.get("agent_name", fn_name)
@@ -93,6 +101,7 @@ def run_stream_query(remote_app, user_id: str, session_id: str, message: str, qu
                     fr = part["function_response"]
                     fn_name = fr.get("name", "")
                     response_data = fr.get("response", {})
+                    print(f"[DEBUG] function_response name={fn_name}, data_keys={list(response_data.keys()) if isinstance(response_data, dict) else type(response_data)}")
 
                     # Try to extract agent name from function response
                     agent_name = fn_name
@@ -111,7 +120,9 @@ def run_stream_query(remote_app, user_id: str, session_id: str, message: str, qu
 
                 elif part.get("text"):
                     last_text = part["text"]
+                    print(f"[DEBUG] text={last_text[:200]}")
 
+        print(f"[DEBUG] Stream finished. last_text={'set' if last_text else 'None'}")
         # Send final text response
         if last_text:
             asyncio.run_coroutine_threadsafe(
