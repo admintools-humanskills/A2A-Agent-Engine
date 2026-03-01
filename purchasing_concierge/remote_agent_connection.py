@@ -48,19 +48,20 @@ def _send_request(
         A2AClientHTTPError: If an HTTP error occurs during the request.
         A2AClientJSONError: If the response body cannot be decoded as JSON.
     """
+    url = getattr(self, '_override_url', None) or self.url
     try:
         response = requests.post(
-            self.url, json=rpc_request_payload, **(http_kwargs or {})
+            url, json=rpc_request_payload, timeout=60, **(http_kwargs or {})
         )
         response.raise_for_status()
         return response.json()
-    except httpx.ReadTimeout as e:
+    except requests.exceptions.Timeout as e:
         raise A2AClientTimeoutError("Client Request timed out") from e
-    except httpx.HTTPStatusError as e:
-        raise A2AClientHTTPError(e.response.status_code, str(e)) from e
+    except requests.exceptions.HTTPError as e:
+        raise A2AClientHTTPError(e.response.status_code if e.response else 500, str(e)) from e
     except json.JSONDecodeError as e:
         raise A2AClientJSONError(str(e)) from e
-    except httpx.RequestError as e:
+    except requests.exceptions.RequestException as e:
         raise A2AClientHTTPError(503, f"Network communication error: {e}") from e
 
 
@@ -103,6 +104,10 @@ class RemoteAgentConnections:
         print(f"agent_url: {agent_url}")
         self._httpx_client = httpx.AsyncClient(timeout=30)
         self.agent_client = A2AClient(self._httpx_client, agent_card, url=agent_url)
+
+        # Force the correct URL (card.url may be container-internal like http://0.0.0.0:8080/)
+        self.agent_client._override_url = agent_url
+        self.agent_client.url = agent_url
 
         # Replace the original method with our custom implementation
         # NOTE: This is a temporary workaround for issue in httpx event closed
