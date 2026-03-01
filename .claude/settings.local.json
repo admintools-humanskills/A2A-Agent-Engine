@@ -5,7 +5,8 @@
       "WebSearch",
       "WebFetch(domain:console.cloud.google.com)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:marketplace.visualstudio.com)"
+      "WebFetch(domain:marketplace.visualstudio.com)",
+      "Bash(git add:*)"
     ]
   }
 }
