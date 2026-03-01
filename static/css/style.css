@@ -104,6 +104,7 @@ html, body {
     flex-direction: column;
     background: var(--bg-darker);
     border-right: 2px solid var(--border-color);
+    min-height: 0;
 }
 
 #chat-messages {
