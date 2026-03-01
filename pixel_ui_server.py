@@ -65,11 +65,14 @@ def run_stream_query(remote_app, user_id: str, session_id: str, message: str, qu
             session_id=session_id,
             message=message,
         ):
+            print(f"[DEBUG] Event received: {json.dumps(event, indent=2, default=str)[:500]}")
             parts = event.get("content", {}).get("parts", [])
             if not parts:
+                print("[DEBUG] No parts in event, skipping")
                 continue
 
             for part in parts:
+                print(f"[DEBUG] Part keys: {list(part.keys())}")
                 if part.get("function_call"):
                     fc = part["function_call"]
                     fn_name = fc.get("name", "")
