@@ -222,7 +222,27 @@ Current active agent: {current_agent["active_agent"]}
             print("received non-task response. Aborting get task ")
             return None
 
-        return send_response.root.result
+        task_result = send_response.root.result
+
+        # Extract text from artifacts so the model gets a clear response
+        response_text = ""
+        if task_result.artifacts:
+            for artifact in task_result.artifacts:
+                for part in artifact.parts:
+                    if part.root and hasattr(part.root, "text") and part.root.text:
+                        response_text += part.root.text + "\n"
+
+        # Fallback to status message
+        if not response_text and task_result.status and task_result.status.message:
+            for part in task_result.status.message.parts:
+                if part.root and hasattr(part.root, "text") and part.root.text:
+                    response_text += part.root.text + "\n"
+
+        return {
+            "agent_name": agent_name,
+            "status": task_result.status.state.value if task_result.status else "unknown",
+            "response": response_text.strip() or "No response from agent.",
+        }
 
 
 def convert_parts(parts: list[Part], tool_context: ToolContext):

@@ -33,11 +33,13 @@ vertexai.init(
     staging_bucket=STAGING_BUCKET,
 )
 
+AGENT_ENGINE_RESOURCE = os.getenv("AGENT_ENGINE_RESOURCE_NAME")
+
 adk_app = reasoning_engines.AdkApp(
     agent=root_agent,
 )
 
-remote_app = agent_engines.create(
+DEPLOY_CONFIG = dict(
     agent_engine=adk_app,
     display_name="travel-concierge",
     requirements=[
@@ -59,4 +61,15 @@ remote_app = agent_engines.create(
     },
 )
 
-print(f"Deployed remote app resource: {remote_app.resource_name}")
+if AGENT_ENGINE_RESOURCE:
+    print(f"Updating existing agent engine: {AGENT_ENGINE_RESOURCE}")
+    remote_app = agent_engines.update(
+        resource_name=AGENT_ENGINE_RESOURCE,
+        **DEPLOY_CONFIG,
+    )
+    print(f"Updated agent engine: {remote_app.resource_name}")
+else:
+    print("No AGENT_ENGINE_RESOURCE_NAME found, creating new agent engine...")
+    remote_app = agent_engines.create(**DEPLOY_CONFIG)
+    print(f"Created new agent engine: {remote_app.resource_name}")
+    print("Add this to your .env: AGENT_ENGINE_RESOURCE_NAME=" + remote_app.resource_name)
