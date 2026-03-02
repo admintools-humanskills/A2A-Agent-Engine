@@ -38,9 +38,9 @@
     --chat-agent-bg: #EDE9FE;
     --chat-agent-text: #1E1B4B;
     --chat-agent-border: #C4B5FD;
-    --chat-tool-bg: #F5F3FF;
-    --chat-tool-border: #A78BFA;
-    --chat-tool-text: #5B21B6;
+    --chat-tool-bg: #FFFFFF;
+    --chat-tool-border: #DDD6FE;
+    --chat-tool-text: #7C3AED;
     --chat-scrollbar: #C4B5FD;
 }
 
@@ -218,11 +218,11 @@ html, body {
 }
 
 .chat-message.tool-call .msg-role {
-    color: #7C3AED;
+    color: #8B5CF6;
 }
 
 .chat-message.tool-response .msg-role {
-    color: #6D28D9;
+    color: #7C3AED;
 }
 
 .chat-message .tool-details {
@@ -235,7 +235,7 @@ html, body {
     white-space: pre-wrap;
     max-height: 200px;
     overflow-y: auto;
-    color: var(--chat-text-primary);
+    color: #6D28D9;
 }
 
 .chat-message.expanded .tool-details {
