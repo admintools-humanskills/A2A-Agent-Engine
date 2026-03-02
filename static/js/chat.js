@@ -102,9 +102,9 @@ class ChatPanel {
         this.hideTyping();
         const el = document.createElement('div');
         el.className = 'chat-message agent';
-        el.style.borderColor = '#ef5350';
-        el.style.background = '#3e0000';
-        el.innerHTML = `<div class="msg-role" style="color:#ef5350">Error</div><div class="msg-text">${this.escapeHtml(message)}</div>`;
+        el.style.borderColor = '#DC2626';
+        el.style.background = '#FEF2F2';
+        el.innerHTML = `<div class="msg-role" style="color:#DC2626">Error</div><div class="msg-text">${this.escapeHtml(message)}</div>`;
         this.messagesEl.appendChild(el);
         this.scrollToBottom();
     }
@@ -112,9 +112,9 @@ class ChatPanel {
     addSystemMessage(text) {
         const el = document.createElement('div');
         el.className = 'chat-message agent';
-        el.style.opacity = '0.6';
-        el.style.borderColor = '#616161';
-        el.innerHTML = `<div class="msg-role" style="color:#9e9e9e">System</div><div class="msg-text">${this.escapeHtml(text)}</div>`;
+        el.style.opacity = '0.85';
+        el.style.borderColor = '#A78BFA';
+        el.innerHTML = `<div class="msg-role" style="color:#6D28D9">System</div><div class="msg-text">${this.escapeHtml(text)}</div>`;
         this.messagesEl.appendChild(el);
         this.scrollToBottom();
     }
