@@ -25,8 +25,8 @@
     --header-height: 48px;
 
     /* Light theme - Chat panel (projector-optimized) */
-    --chat-panel-bg: #F5F3FF;
-    --chat-messages-bg: #F5F3FF;
+    --chat-panel-bg: #EDE9FE;
+    --chat-messages-bg: #EDE9FE;
     --chat-form-bg: #EDE9FE;
     --chat-input-bg: #FFFFFF;
     --chat-input-border: #C4B5FD;
@@ -233,8 +233,8 @@ html, body {
     font-family: monospace;
     font-size: 11px;
     white-space: pre-wrap;
-    max-height: 200px;
-    overflow-y: auto;
+    max-height: none;
+    overflow-y: visible;
     color: #6D28D9;
 }
 
