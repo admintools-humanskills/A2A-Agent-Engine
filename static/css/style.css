@@ -26,7 +26,7 @@
 
     /* Light theme - Chat panel (projector-optimized) */
     --chat-panel-bg: #F5F3FF;
-    --chat-messages-bg: #FFFFFF;
+    --chat-messages-bg: #F5F3FF;
     --chat-form-bg: #EDE9FE;
     --chat-input-bg: #FFFFFF;
     --chat-input-border: #C4B5FD;
