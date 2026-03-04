@@ -25,13 +25,14 @@ def main(host, port):
         capabilities = AgentCapabilities(streaming=True)
         skill = AgentSkill(
             id="merchandise_order",
-            name="Merchandise Fan Shop",
-            description="Orders football fan merchandise: jerseys (home, away, retro, kids), scarves, caps, accessories and collectibles for Real Madrid, Barcelona, PSG, Arsenal and Roma.",
-            tags=["merchandise", "fan shop", "jersey", "football", "souvenir"],
+            name="Merchandise & Formal Wear Shop",
+            description="Orders football fan merchandise: jerseys (home, away, retro, kids), scarves, caps, accessories and collectibles for Real Madrid, Barcelona, PSG, Arsenal and Roma, plus formal wear (suits, tuxedos, dress shirts, ties, bow ties, pocket squares, dress shoes).",
+            tags=["merchandise", "fan shop", "jersey", "football", "souvenir", "clothing", "formal wear", "suit", "tie", "shirt"],
             examples=[
                 "I want to buy a Real Madrid home jersey",
                 "Order a Barcelona scarf and a Champions League cap",
                 "Get me an Arsenal Invincibles retro jersey with Henry 14 printing",
+                "I need a black suit and a silk tie for dinner tonight",
             ],
         )
         agent_host_url = (
@@ -41,7 +42,7 @@ def main(host, port):
         )
         agent_card = AgentCard(
             name="merchandise_agent",
-            description="Orders football fan merchandise: jerseys (home, away, retro, kids), scarves, caps, accessories and collectibles for Real Madrid, Barcelona, PSG, Arsenal and Roma.",
+            description="Orders football fan merchandise: jerseys (home, away, retro, kids), scarves, caps, accessories and collectibles for Real Madrid, Barcelona, PSG, Arsenal and Roma, plus formal wear (suits, tuxedos, dress shirts, ties, bow ties, pocket squares, dress shoes).",
             url=agent_host_url,
             version="1.0.0",
             defaultInputModes=MerchandiseAgent.SUPPORTED_CONTENT_TYPES,

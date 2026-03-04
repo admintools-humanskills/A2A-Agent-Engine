@@ -11,9 +11,9 @@ load_dotenv()
 SYSTEM_INSTRUCTION = """
 # INSTRUCTIONS
 
-You are a specialized football fan shop assistant for major European clubs.
-Your sole purpose is to help users browse merchandise, compare products, and create orders for football fan items.
-If the user asks about anything other than football merchandise or fan shop products, politely state that you can only assist with merchandise orders.
+You are a shopping assistant for football fan merchandise and elegant formal wear.
+Your purpose is to help users browse products, compare options, and create orders for football fan items and formal clothing/accessories.
+If the user asks about anything other than football merchandise, fan shop products, or formal wear (suits, shirts, ties, shoes), politely state that you can only assist with merchandise and formal wear orders.
 
 # FAN SHOP CATALOGUE
 
@@ -83,6 +83,40 @@ If the user asks about anything other than football merchandise or fan shop prod
 9. **Club Keychain** (Metal crest, carabiner) - 5 EUR
 10. **Club Sticker Pack** (20 stickers, holographic) - 5 EUR
 
+## Dress Shirts
+1. **Classic White Dress Shirt** (Cotton, slim fit) - 59 EUR
+2. **Light Blue Dress Shirt** (Cotton, regular fit) - 59 EUR
+3. **Black Dress Shirt** (Cotton stretch, slim fit) - 59 EUR
+4. **Pink Dress Shirt** (Cotton, slim fit) - 59 EUR
+
+## Suits & Tuxedos
+1. **Classic Navy Suit** (Wool blend, slim fit, jacket + trousers) - 289 EUR
+2. **Charcoal Grey Suit** (Wool blend, regular fit, jacket + trousers) - 289 EUR
+3. **Black Slim Fit Suit** (Wool blend, jacket + trousers) - 299 EUR
+4. **Black Tuxedo** (Satin lapels, jacket + trousers) - 399 EUR
+5. **Midnight Blue Tuxedo** (Satin lapels, jacket + trousers) - 420 EUR
+
+## Ties
+1. **Classic Navy Silk Tie** - 39 EUR
+2. **Burgundy Silk Tie** - 39 EUR
+3. **Black Silk Tie** - 35 EUR
+4. **Striped Silver & Blue Tie** (Silk) - 42 EUR
+
+## Bow Ties
+1. **Black Silk Bow Tie** (Self-tie) - 35 EUR
+2. **Burgundy Velvet Bow Tie** - 38 EUR
+3. **Navy Satin Bow Tie** (Pre-tied) - 29 EUR
+
+## Pocket Squares
+1. **White Silk Pocket Square** - 19 EUR
+2. **Burgundy Silk Pocket Square** - 19 EUR
+3. **Patterned Pocket Square Set (3-pack)** - 35 EUR
+
+## Dress Shoes
+1. **Black Oxford Dress Shoes** (Leather) - 149 EUR
+2. **Brown Derby Dress Shoes** (Leather) - 149 EUR
+3. **Black Patent Leather Shoes** (Formal/tuxedo) - 189 EUR
+
 ## Custom Name/Number Printing
 - Available on all jerseys (home, away, kids, retro): **+15 EUR**
 - Player names or custom name & number
@@ -94,7 +128,8 @@ If the user asks about anything other than football merchandise or fan shop prod
 # RULES
 
 - When ALL required information is provided (product name(s), size(s), quantity/quantities, customer name), proceed DIRECTLY to placing the order using the create_merchandise_order function WITHOUT asking for confirmation.
-- If essential details are missing (e.g. size not specified for a jersey), ask ONLY for the missing details.
+- If essential details are missing (e.g. size not specified for a jersey or suit), ask ONLY for the missing details.
+- For suits and tuxedos, sizes can be EU (44-56) or S/M/L/XL/XXL. For dress shirts, sizes are S/M/L/XL/XXL or collar sizes (38-44 EU). For dress shoes, sizes are EU (39-47).
 - Present relevant products from the catalogue when the user asks about a category, team, or specific item.
 - After ordering, provide a detailed confirmation with order ID, items, total, and estimated delivery.
 - DO NOT invent products or prices not listed above.
@@ -183,6 +218,34 @@ def create_merchandise_order(
         "Football Mug": 12,
         "Club Keychain": 5,
         "Club Sticker Pack": 5,
+        # Dress shirts
+        "Classic White Dress Shirt": 59,
+        "Light Blue Dress Shirt": 59,
+        "Black Dress Shirt": 59,
+        "Pink Dress Shirt": 59,
+        # Suits & tuxedos
+        "Classic Navy Suit": 289,
+        "Charcoal Grey Suit": 289,
+        "Black Slim Fit Suit": 299,
+        "Black Tuxedo": 399,
+        "Midnight Blue Tuxedo": 420,
+        # Ties
+        "Classic Navy Silk Tie": 39,
+        "Burgundy Silk Tie": 39,
+        "Black Silk Tie": 35,
+        "Striped Silver & Blue Tie": 42,
+        # Bow ties
+        "Black Silk Bow Tie": 35,
+        "Burgundy Velvet Bow Tie": 38,
+        "Navy Satin Bow Tie": 29,
+        # Pocket squares
+        "White Silk Pocket Square": 19,
+        "Burgundy Silk Pocket Square": 19,
+        "Patterned Pocket Square Set (3-pack)": 35,
+        # Dress shoes
+        "Black Oxford Dress Shoes": 149,
+        "Brown Derby Dress Shoes": 149,
+        "Black Patent Leather Shoes": 189,
     }
 
     item_list = [i.strip() for i in items.split(",")]
@@ -252,7 +315,7 @@ def create_merchandise_order(
 # Define the function declaration for Gemini function calling
 merchandise_order_tool = types.FunctionDeclaration(
     name="create_merchandise_order",
-    description="Creates a merchandise fan shop order for football items (jerseys, scarves, caps, accessories, collectibles).",
+    description="Creates an order for football fan merchandise (jerseys, scarves, caps, accessories, collectibles) or formal wear (suits, tuxedos, dress shirts, ties, bow ties, pocket squares, dress shoes).",
     parameters=types.Schema(
         type=types.Type.OBJECT,
         properties={
