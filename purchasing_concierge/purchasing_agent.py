@@ -63,7 +63,7 @@ class PurchasingAgent:
             before_agent_callback=self.before_agent_callback,
             description=(
                 "Travel & Event concierge that orchestrates hotel, flight, train, event ticket,"
-                " restaurant reservations and merchandise/fan shop orders across Europe via specialized agents."
+                " restaurant reservations, merchandise and shopping (clothing, formal wear, fan shop) orders across Europe via specialized agents."
             ),
             tools=[
                 self.send_task,
@@ -72,8 +72,8 @@ class PurchasingAgent:
 
     def root_instruction(self, context: ReadonlyContext) -> str:
         current_agent = self.check_active_agent(context)
-        return f"""You are an expert travel and event concierge that orchestrates travel planning, reservations and fan shop purchases across Europe.
-You delegate user requests to the appropriate specialized remote agents: hotels, flights, trains, event tickets, restaurants, and merchandise/fan shop.
+        return f"""You are an expert travel, event and shopping concierge that orchestrates travel planning, reservations and product purchases across Europe.
+You delegate user requests to the appropriate specialized remote agents: hotels, flights, trains, event tickets, restaurants, and merchandise/shopping (football fan items AND clothing/formal wear: shirts, suits, tuxedos, ties, shoes, etc.).
 
 Covered cities: Madrid, Barcelona, Paris, London, Rome.
 
@@ -92,8 +92,8 @@ You MUST write COMPLETE, SELF-CONTAINED task descriptions that include ALL neces
 
 # Execution:
 - For actionable tasks, use `send_task` to assign tasks to the appropriate remote agents.
-- When a user request involves multiple services (e.g. "book a flight, hotel, restaurant and match ticket"),
-    delegate to ALL relevant agents without asking for user permission. Send each task with only the relevant context for that agent.
+- When a user request involves multiple services (e.g. "book a flight, hotel, restaurant and match ticket", or "reserve a restaurant and buy me a white shirt"),
+    delegate to ALL relevant agents simultaneously without asking for user permission. Send each task with only the relevant context for that agent.
 - Never ask user permission when you want to connect with remote agents. If you need to make connections with multiple remote agents, directly
     connect with them without asking user permission or preferences.
 - Always show the detailed response information from each agent and propagate it properly to the user.
