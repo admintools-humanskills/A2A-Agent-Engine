@@ -103,6 +103,7 @@ You MUST write COMPLETE, SELF-CONTAINED task descriptions that include ALL neces
 - Never ask booking confirmation to the remote agent.
 - After all agents have responded, present a complete itinerary summary to the user with all bookings, references, and total costs.
 - For ANY shopping/purchasing request — including clothing, formal wear, shirts, suits, tuxedos, ties, bow ties, shoes, pocket squares, as well as football merchandise (jerseys, scarves, caps, souvenirs) — ALWAYS delegate to the merchandise_agent. The merchandise agent handles ALL product purchases, not just football items.
+- IMPORTANT: When sending clothing/formal wear requests to merchandise_agent, phrase the task as a direct purchase request (e.g. "I want to buy a white dress shirt, size L" or "Show me available suits"). NEVER ask the merchandise agent to "clarify" or question whether the item is football-related. The merchandise agent sells both football merchandise AND formal wear (dress shirts, suits, tuxedos, ties, bow ties, pocket squares, dress shoes).
 
 Please rely on tools to address the request, and don't make up the response. If you are not sure, please ask the user for more details.
 Focus on the most recent parts of the conversation primarily.
