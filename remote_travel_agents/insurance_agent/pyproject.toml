@@ -1,0 +1,16 @@
+[project]
+name = "insurance-agent"
+version = "0.1.0"
+description = "A2A BNP Paribas Cardif Insurance Agent using Google GenAI SDK"
+requires-python = ">=3.12"
+dependencies = [
+    "click>=8.1.8",
+    "google-genai>=1.0.0",
+    "pydantic>=2.10.6",
+    "dotenv>=0.9.9",
+    "sse-starlette>=2.3.3",
+    "jwcrypto>=1.5.6",
+    "pyjwt>=2.10.1",
+    "uvicorn>=0.34.2",
+    "a2a-sdk>=0.2.16",
+]

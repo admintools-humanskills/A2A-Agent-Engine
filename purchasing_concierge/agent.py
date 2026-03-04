@@ -12,5 +12,6 @@ root_agent = PurchasingAgent(
         os.getenv("TICKET_AGENT_URL", "http://localhost:10005"),
         os.getenv("RESTAURANT_AGENT_URL", "http://localhost:10006"),
         os.getenv("MERCHANDISE_AGENT_URL", "http://localhost:10007"),
+        os.getenv("INSURANCE_AGENT_URL", "http://localhost:10008"),
     ]
 ).create_agent()

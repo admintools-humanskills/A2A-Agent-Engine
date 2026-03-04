@@ -137,6 +137,27 @@ gcloud run services update merchandise-agent \
     --update-env-vars HOST_OVERRIDE=$MERCHANDISE_URL
 
 echo ""
+echo "=== Deploying Insurance Agent (Google GenAI SDK - Cardif) ==="
+gcloud run deploy insurance-agent \
+    --source remote_travel_agents/insurance_agent \
+    --port=8080 \
+    --allow-unauthenticated \
+    --min-instances 1 \
+    --region $REGION \
+    --project $PROJECT_ID \
+    --update-env-vars GOOGLE_CLOUD_LOCATION=$REGION \
+    --update-env-vars GOOGLE_CLOUD_PROJECT=$PROJECT_ID \
+    --update-env-vars GOOGLE_GENAI_USE_VERTEXAI=TRUE
+
+INSURANCE_URL=$(gcloud run services describe insurance-agent --region $REGION --project $PROJECT_ID --format='value(status.url)')
+echo "Insurance Agent deployed at: $INSURANCE_URL"
+
+gcloud run services update insurance-agent \
+    --region $REGION \
+    --project $PROJECT_ID \
+    --update-env-vars HOST_OVERRIDE=$INSURANCE_URL
+
+echo ""
 echo "=========================================="
 echo "All agents deployed successfully!"
 echo "=========================================="
@@ -148,6 +169,7 @@ echo "  TRAIN_AGENT_URL=$TRAIN_URL"
 echo "  TICKET_AGENT_URL=$TICKET_URL"
 echo "  RESTAURANT_AGENT_URL=$RESTAURANT_URL"
 echo "  MERCHANDISE_AGENT_URL=$MERCHANDISE_URL"
+echo "  INSURANCE_AGENT_URL=$INSURANCE_URL"
 echo ""
 echo "Verify agent cards:"
 echo "  curl $HOTEL_URL/.well-known/agent.json"
@@ -156,5 +178,6 @@ echo "  curl $TRAIN_URL/.well-known/agent.json"
 echo "  curl $TICKET_URL/.well-known/agent.json"
 echo "  curl $RESTAURANT_URL/.well-known/agent.json"
 echo "  curl $MERCHANDISE_URL/.well-known/agent.json"
+echo "  curl $INSURANCE_URL/.well-known/agent.json"
 echo ""
 echo "Add these URLs to your .env file for the concierge deployment."
