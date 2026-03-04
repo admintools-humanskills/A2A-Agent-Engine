@@ -88,6 +88,11 @@ You MUST write COMPLETE, SELF-CONTAINED task descriptions that include ALL neces
 - For train: origin city, destination city, travel date, passenger full name, class (default Standard), return date if mentioned.
 - For tickets: event type/name, city, date, number of tickets, attendee full name, seating preference if mentioned.
 - For merchandise: item name(s), size(s) (including suit size, shirt size, shoe size if applicable), quantity, customer full name, custom printing details if mentioned, clothing/formal wear preferences if mentioned.
+  - CRITICAL vocabulary for clothing requests — use these EXACT English terms when forwarding to merchandise_agent:
+    chemise = dress shirt (NOT jersey), costume/costard = suit, smoking = tuxedo,
+    cravate = tie, nœud papillon = bow tie, pochette = pocket square,
+    chaussures habillées = dress shoes, blanc/blanche = white, noir/noire = black
+  - When the user asks for clothing/formal wear, ALWAYS use the catalogue category names ("dress shirt", "suit", "tuxedo", "tie", "bow tie", "pocket square", "dress shoes") in your task description. NEVER use "jersey" or "shirt" alone for a clothing request — use "dress shirt" instead.
 - Write task descriptions as complete standalone requests that the agent can process WITHOUT asking follow-up questions.
 
 # Execution:
