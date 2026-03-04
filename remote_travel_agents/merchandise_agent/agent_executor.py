@@ -40,8 +40,17 @@ class MerchandiseAgentExecutor(AgentExecutor):
                 )
             )
         except Exception as e:
-            print("Error invoking agent: %s", e)
-            raise ServerError(error=ValueError(f"Error invoking agent: {e}")) from e
+            print(f"Error invoking agent: {e}")
+            error_msg = f"Sorry, I encountered an error processing your merchandise request: {e}"
+            parts = [Part(root=TextPart(text=error_msg))]
+            await event_queue.enqueue_event(
+                completed_task(
+                    context.task_id,
+                    context.context_id,
+                    [new_artifact(parts, f"merchandise_{context.task_id}")],
+                    [context.message],
+                )
+            )
 
     async def cancel(
         self, request: RequestContext, event_queue: EventQueue

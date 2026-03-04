@@ -93,16 +93,14 @@ If the user asks about anything other than football merchandise or fan shop prod
 
 # RULES
 
+- When ALL required information is provided (product name(s), size(s), quantity/quantities, customer name), proceed DIRECTLY to placing the order using the create_merchandise_order function WITHOUT asking for confirmation.
+- If essential details are missing (e.g. size not specified for a jersey), ask ONLY for the missing details.
 - Present relevant products from the catalogue when the user asks about a category, team, or specific item.
-- If the user wants to order, follow this sequence:
-    1. Confirm product(s), size(s) (S/M/L/XL/XXL for adults, age-based for kids), quantity, and any custom printing.
-    2. Calculate subtotal, printing surcharge (if any), and shipping.
-    3. Use the create_merchandise_order function to place the order.
-    4. Provide a detailed confirmation with order ID, items, total, and estimated delivery.
+- After ordering, provide a detailed confirmation with order ID, items, total, and estimated delivery.
 - DO NOT invent products or prices not listed above.
 - All prices are in EUR.
 - Multiple items can be combined in a single order.
-- For custom printing, always ask for the name and number to print.
+- For custom printing, include the name and number if provided; otherwise ask.
 """
 
 
@@ -278,19 +276,32 @@ class MerchandiseAgent:
     def __init__(self):
         self.client = genai.Client(vertexai=True)
         self.model_id = "gemini-2.5-flash-lite"
+        self.sessions: dict[str, list] = {}
 
     def invoke(self, query, sessionId) -> str:
-        response = self.client.models.generate_content(
-            model=self.model_id,
-            contents=query,
-            config=types.GenerateContentConfig(
-                system_instruction=SYSTEM_INSTRUCTION,
-                tools=[merchandise_tool],
-            ),
+        history = self.sessions.get(sessionId, [])
+        history.append(types.Content(role="user", parts=[types.Part.from_text(text=query)]))
+
+        config = types.GenerateContentConfig(
+            system_instruction=SYSTEM_INSTRUCTION,
+            tools=[merchandise_tool],
         )
 
-        # Handle function calling loop
-        while response.candidates[0].content.parts:
+        try:
+            response = self.client.models.generate_content(
+                model=self.model_id,
+                contents=history,
+                config=config,
+            )
+        except Exception as e:
+            print(f"Error calling GenAI: {e}")
+            return f"Sorry, I encountered an error processing your request: {e}"
+
+        max_iterations = 5
+        for _ in range(max_iterations):
+            if not response.candidates or not response.candidates[0].content or not response.candidates[0].content.parts:
+                break
+
             function_call_part = None
             for part in response.candidates[0].content.parts:
                 if part.function_call:
@@ -300,32 +311,47 @@ class MerchandiseAgent:
             if not function_call_part:
                 break
 
+            # Add assistant response to history
+            history.append(response.candidates[0].content)
+
             fn_call = function_call_part.function_call
             fn_args = dict(fn_call.args) if fn_call.args else {}
-            fn_result = create_merchandise_order(**fn_args)
 
-            response = self.client.models.generate_content(
-                model=self.model_id,
-                contents=[
-                    types.Content(role="user", parts=[types.Part.from_text(text=query)]),
-                    response.candidates[0].content,
-                    types.Content(
-                        role="user",
-                        parts=[
-                            types.Part.from_function_response(
-                                name=fn_call.name,
-                                response=fn_result,
-                            )
-                        ],
-                    ),
-                ],
-                config=types.GenerateContentConfig(
-                    system_instruction=SYSTEM_INSTRUCTION,
-                    tools=[merchandise_tool],
-                ),
-            )
+            try:
+                fn_result = create_merchandise_order(**fn_args)
+            except Exception as e:
+                print(f"Error executing function: {e}")
+                fn_result = {"error": str(e)}
 
-        return response.text
+            # Add function response to history
+            history.append(types.Content(
+                role="user",
+                parts=[types.Part.from_function_response(name=fn_call.name, response=fn_result)],
+            ))
+
+            try:
+                response = self.client.models.generate_content(
+                    model=self.model_id,
+                    contents=history,
+                    config=config,
+                )
+            except Exception as e:
+                print(f"Error calling GenAI after function call: {e}")
+                return f"Sorry, I encountered an error processing the order result: {e}"
+
+        # Add final assistant response to history
+        if response.candidates and response.candidates[0].content:
+            history.append(response.candidates[0].content)
+
+        self.sessions[sessionId] = history
+
+        # Extract text safely
+        if response.candidates and response.candidates[0].content and response.candidates[0].content.parts:
+            text_parts = [p.text for p in response.candidates[0].content.parts if p.text]
+            if text_parts:
+                return "\n".join(text_parts)
+
+        return "Sorry, I could not generate a response. Please try again with more details."
 
 
 if __name__ == "__main__":

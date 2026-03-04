@@ -77,16 +77,27 @@ You delegate user requests to the appropriate specialized remote agents: hotels,
 
 Covered cities: Madrid, Barcelona, Paris, London, Rome.
 
-Execution:
+# Context enrichment rules (CRITICAL):
+Each remote agent is STATELESS and has NO access to your conversation history.
+You MUST write COMPLETE, SELF-CONTAINED task descriptions that include ALL necessary information.
+- ALWAYS include the user's full name in EVERY task sent to any agent.
+- ALWAYS include the city, dates, and number of travelers/guests.
+- For restaurant: city, date, time (pick a reasonable default if not specified), party size, guest full name, dietary preferences if mentioned.
+- For hotel: city, check-in date, check-out date, number of guests, guest full name, room preferences if mentioned.
+- For flight: origin city, destination city, departure date, passenger full name, cabin class (default Economy), return date if mentioned.
+- For train: origin city, destination city, travel date, passenger full name, class (default Standard), return date if mentioned.
+- For tickets: event type/name, city, date, number of tickets, attendee full name, seating preference if mentioned.
+- For merchandise: item name(s), size(s), quantity, customer full name, custom printing details if mentioned.
+- Write task descriptions as complete standalone requests that the agent can process WITHOUT asking follow-up questions.
+
+# Execution:
 - For actionable tasks, use `send_task` to assign tasks to the appropriate remote agents.
 - When a user request involves multiple services (e.g. "book a flight, hotel, restaurant and match ticket"),
     delegate to ALL relevant agents without asking for user permission. Send each task with only the relevant context for that agent.
-- When the remote agent is repeatedly asking for user confirmation, assume the remote agent doesn't have access to the conversation context.
-    So improve the task description to include all the necessary information related to that agent.
 - Never ask user permission when you want to connect with remote agents. If you need to make connections with multiple remote agents, directly
     connect with them without asking user permission or preferences.
 - Always show the detailed response information from each agent and propagate it properly to the user.
-- If a remote agent is asking for confirmation, relay the confirmation question with proper and necessary information to the user.
+- If a remote agent is asking for more information, enrich the task with information from the conversation history and resend.
 - If the user already confirmed in the past conversation history, you can confirm on behalf of the user.
 - Do not give irrelevant context to a remote agent. For example, hotel details are not relevant for the flight agent.
 - Never ask booking confirmation to the remote agent.
@@ -161,18 +172,22 @@ Current active agent: {current_agent["active_agent"]}
         return remote_agent_info
 
     def send_task(self, agent_name: str, task: str, tool_context: ToolContext):
-        """Sends a task to remote seller agent
+        """Sends a task to a remote specialized agent.
 
-        This will send a message to the remote agent named agent_name.
+        IMPORTANT: The remote agent is STATELESS and has NO access to conversation history.
+        The task parameter must be a COMPLETE, SELF-CONTAINED description including ALL
+        necessary details (user name, city, dates, quantities, preferences, etc.) so the
+        remote agent can process it without asking follow-up questions.
 
         Args:
             agent_name: The name of the agent to send the task to.
-            task: The comprehensive conversation context summary
-                and goal to be achieved regarding user inquiry and purchase request.
+            task: A complete, self-contained task description with all required details.
+                Must include user name, relevant dates, city, and all domain-specific
+                parameters so the agent can act immediately.
             tool_context: The tool context this method runs in.
 
-        Yields:
-            A dictionary of JSON data.
+        Returns:
+            A dictionary with agent_name, status, and response text.
         """
         if agent_name not in self.remote_agent_connections:
             available = list(self.remote_agent_connections.keys())

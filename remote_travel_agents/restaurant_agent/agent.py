@@ -112,11 +112,10 @@ If the user asks about anything other than restaurant availability or reservatio
 
 # RULES
 
-- Present available restaurants for the requested city with cuisine types and average prices before booking.
-- If the user wants to book, follow this order:
-    1. Confirm restaurant name, city, date, time, party size, guest name, and any special requests.
-    2. Use the create_restaurant_reservation function to create the reservation.
-    3. Provide a detailed confirmation with reservation ID, restaurant, date/time, party size, and estimated total.
+- When ALL required information is provided (restaurant name, city, date, time, party size, guest name), proceed DIRECTLY to the reservation using the create_restaurant_reservation function WITHOUT asking for confirmation.
+- If essential details are missing, ask ONLY for the missing details.
+- If the user doesn't specify a restaurant, suggest options for the requested city with cuisine types and average prices, then book once they choose.
+- After booking, provide a detailed confirmation with reservation ID, restaurant, date/time, party size, and estimated total.
 - DO NOT invent restaurants or prices not listed above.
 - All prices are in EUR per person.
 """
@@ -207,20 +206,32 @@ class RestaurantReservationAgent:
     def __init__(self):
         self.client = genai.Client(vertexai=True)
         self.model_id = "gemini-2.5-flash-lite"
+        self.sessions: dict[str, list] = {}
 
     def invoke(self, query, sessionId) -> str:
-        # Build initial request with system instruction and user query
-        response = self.client.models.generate_content(
-            model=self.model_id,
-            contents=query,
-            config=types.GenerateContentConfig(
-                system_instruction=SYSTEM_INSTRUCTION,
-                tools=[restaurant_tool],
-            ),
+        history = self.sessions.get(sessionId, [])
+        history.append(types.Content(role="user", parts=[types.Part.from_text(text=query)]))
+
+        config = types.GenerateContentConfig(
+            system_instruction=SYSTEM_INSTRUCTION,
+            tools=[restaurant_tool],
         )
 
-        # Handle function calling loop
-        while response.candidates[0].content.parts:
+        try:
+            response = self.client.models.generate_content(
+                model=self.model_id,
+                contents=history,
+                config=config,
+            )
+        except Exception as e:
+            print(f"Error calling GenAI: {e}")
+            return f"Sorry, I encountered an error processing your request: {e}"
+
+        max_iterations = 5
+        for _ in range(max_iterations):
+            if not response.candidates or not response.candidates[0].content or not response.candidates[0].content.parts:
+                break
+
             function_call_part = None
             for part in response.candidates[0].content.parts:
                 if part.function_call:
@@ -228,38 +239,49 @@ class RestaurantReservationAgent:
                     break
 
             if not function_call_part:
-                # No function call, return the text response
                 break
 
-            # Execute the function
+            # Add assistant response to history
+            history.append(response.candidates[0].content)
+
             fn_call = function_call_part.function_call
             fn_args = dict(fn_call.args) if fn_call.args else {}
-            fn_result = create_restaurant_reservation(**fn_args)
 
-            # Send function result back to the model
-            response = self.client.models.generate_content(
-                model=self.model_id,
-                contents=[
-                    types.Content(role="user", parts=[types.Part.from_text(text=query)]),
-                    response.candidates[0].content,
-                    types.Content(
-                        role="user",
-                        parts=[
-                            types.Part.from_function_response(
-                                name=fn_call.name,
-                                response=fn_result,
-                            )
-                        ],
-                    ),
-                ],
-                config=types.GenerateContentConfig(
-                    system_instruction=SYSTEM_INSTRUCTION,
-                    tools=[restaurant_tool],
-                ),
-            )
+            try:
+                fn_result = create_restaurant_reservation(**fn_args)
+            except Exception as e:
+                print(f"Error executing function: {e}")
+                fn_result = {"error": str(e)}
 
-        # Extract text from the final response
-        return response.text
+            # Add function response to history
+            history.append(types.Content(
+                role="user",
+                parts=[types.Part.from_function_response(name=fn_call.name, response=fn_result)],
+            ))
+
+            try:
+                response = self.client.models.generate_content(
+                    model=self.model_id,
+                    contents=history,
+                    config=config,
+                )
+            except Exception as e:
+                print(f"Error calling GenAI after function call: {e}")
+                return f"Sorry, I encountered an error processing the reservation result: {e}"
+
+        # Add final assistant response to history
+        if response.candidates and response.candidates[0].content:
+            history.append(response.candidates[0].content)
+
+        self.sessions[sessionId] = history
+
+        # Extract text safely
+        if response.candidates and response.candidates[0].content and response.candidates[0].content.parts:
+            text_parts = [p.text for p in response.candidates[0].content.parts if p.text]
+            if text_parts:
+                return "\n".join(text_parts)
+
+        return "Sorry, I could not generate a response. Please try again with more details."
 
 
 if __name__ == "__main__":
