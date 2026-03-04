@@ -72,6 +72,7 @@ const CHAR_PAL = {
     ticket:     { skin:'#C48424', hair:'#000000', body:'#E47818', bodyDark:'#944A00', eyes:'#000000', acc:'#F8F8F8' },
     restaurant: { skin:'#FCBCB0', hair:'#503000', body:'#F83800', bodyDark:'#A81000', eyes:'#000000', acc:'#F8F8F8', toque:true },
     merchandise:{ skin:'#E4A672', hair:'#000000', body:'#B884FC', bodyDark:'#6844FC', eyes:'#000000', acc:'#F8D830' },
+    insurance:  { skin:'#FCBCB0', hair:'#200800', body:'#00A800', bodyDark:'#005800', eyes:'#000000', acc:'#F8D830' },
 };
 
 // ==================== Ground ====================
@@ -95,6 +96,10 @@ function isPathTile(tx, ty) {
     if (x >= 14 && x <= 15 && y >= 4 && y <= 5) return true;
     if (x >= 14 && x <= 15 && y >= 22 && y <= 24) return true;
     if (x >= 12 && x <= 17 && y >= 13 && y <= 17) return true;
+    // Insurance path (extending plaza right)
+    if (y >= 14 && y <= 15 && x >= 18 && x <= 25) return true;
+    // Insurance connector (north from path to building)
+    if (x >= 24 && x <= 25 && y >= 11 && y <= 14) return true;
     return false;
 }
 
@@ -111,6 +116,8 @@ function isDirtZone(tx, ty) {
     if (tx >= 11 && tx <= 18 && ty >= 21 && ty <= 29) return true;
     // Restaurant footprint (px 336..432, py 354..404) + margin
     if (tx >= 21 && tx <= 29 && ty >= 21 && ty <= 29) return true;
+    // Insurance building footprint (px 376..456, py 144..232) + margin
+    if (tx >= 22 && tx <= 29 && ty >= 8 && ty <= 16) return true;
     return false;
 }
 
@@ -483,6 +490,52 @@ function drawMerchandiseShop(ctx, x, y) {
     ctx.fillText('\u2605', x + 40, y + 6);
 }
 
+function drawInsuranceBuilding(ctx, x, y) {
+    // Main wall
+    ctx.fillStyle = ENV.wall;
+    ctx.fillRect(x, y + 16, 80, 48);
+    ctx.fillStyle = ENV.wallDark;
+    ctx.fillRect(x, y + 16, 80, 2);
+    outlineRect(ctx, x, y + 16, 80, 48);
+    // Green roof (BNP Paribas Cardif)
+    ctx.fillStyle = NES_PALETTE.darkGreen;
+    ctx.fillRect(x - 2, y + 10, 84, 8);
+    ctx.fillStyle = NES_PALETTE.green;
+    ctx.fillRect(x + 6, y + 2, 68, 10);
+    outlineRect(ctx, x - 2, y + 10, 84, 8);
+    outlineRect(ctx, x + 6, y + 2, 68, 10);
+    roofTexture(ctx, x + 6, y + 2, 68, 10, 10);
+    // Large window (left) - glass front
+    ctx.fillStyle = NES_PALETTE.paleBlue;
+    ctx.fillRect(x + 8, y + 24, 22, 16);
+    ctx.fillStyle = NES_PALETTE.lightBlue;
+    ctx.fillRect(x + 18, y + 24, 2, 16);
+    outlineRect(ctx, x + 8, y + 24, 22, 16);
+    // Door (green)
+    ctx.fillStyle = NES_PALETTE.darkGreen;
+    ctx.fillRect(x + 34, y + 28, 14, 24);
+    ctx.fillStyle = NES_PALETTE.yellow;
+    ctx.fillRect(x + 44, y + 38, 2, 3);
+    outlineRect(ctx, x + 34, y + 28, 14, 24);
+    // Large window (right) - glass front
+    ctx.fillStyle = NES_PALETTE.paleBlue;
+    ctx.fillRect(x + 52, y + 24, 22, 16);
+    ctx.fillStyle = NES_PALETTE.lightBlue;
+    ctx.fillRect(x + 62, y + 24, 2, 16);
+    outlineRect(ctx, x + 52, y + 24, 22, 16);
+    // Shield emblem on roof
+    ctx.fillStyle = NES_PALETTE.yellow;
+    ctx.fillRect(x + 34, y - 2, 12, 6);
+    ctx.fillStyle = NES_PALETTE.green;
+    ctx.fillRect(x + 36, y, 8, 3);
+    outlineRect(ctx, x + 34, y - 2, 12, 6);
+    // Euro sign on building
+    ctx.fillStyle = NES_PALETTE.yellow;
+    ctx.font = 'bold 8px "Press Start 2P", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('\u20AC', x + 40, y + 56);
+}
+
 // ==================== Decorations ====================
 
 function drawTree(ctx, x, y) {
@@ -778,6 +831,7 @@ const AGENTS = {
     ticket:     { x: 80,  y: 380, color: '#E47818', label: 'Ticket',    icon: '\u2660' },
     restaurant: { x: 400, y: 380, color: '#F83800', label: 'Restaurant',icon: '\u2615' },
     merchandise:{ x: 240, y: 380, color: '#B884FC', label: 'Shop',       icon: '\u2605' },
+    insurance:  { x: 416, y: 240, color: '#00A800', label: 'Insurance',  icon: '\u20AC' },
 };
 
 const BUILDINGS = {
@@ -787,6 +841,7 @@ const BUILDINGS = {
     ticket:     { x: 24,  y: 336, draw: drawTheater },
     restaurant: { x: 336, y: 340, draw: drawRestaurantBuilding },
     merchandise:{ x: 200, y: 336, draw: drawMerchandiseShop },
+    insurance:  { x: 376, y: 168, draw: drawInsuranceBuilding },
 };
 
 const DECORATIONS = {
