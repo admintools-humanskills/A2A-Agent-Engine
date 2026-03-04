@@ -59,6 +59,7 @@ DEPLOY_CONFIG = dict(
         "TICKET_AGENT_URL": os.environ["TICKET_AGENT_URL"],
         "RESTAURANT_AGENT_URL": os.environ["RESTAURANT_AGENT_URL"],
         "MERCHANDISE_AGENT_URL": os.environ["MERCHANDISE_AGENT_URL"],
+        "INSURANCE_AGENT_URL": os.environ["INSURANCE_AGENT_URL"],
     },
 )
 
