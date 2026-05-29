@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide 5 - Les 7 Agents</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .slide {
+    width: 1280px; height: 720px;
+    background: #ffffff;
+    border-radius: 16px; border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  }
+  .header {
+    padding: 40px 60px 20px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .tag {
+    display: inline-block; padding: 4px 14px;
+    background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 16px; border: 1px solid #e5e7eb; font-size: 0.75rem; font-weight: 600; color: #059669;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  h2 {
+    font-size: 1.7rem; font-weight: 800;
+    background: linear-gradient(135deg, #7c3aed, #2563eb);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .agents-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 40px;
+  }
+  .nav-bar {
+    position: absolute; bottom: 20px; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 2;
+  }
+  .nav-bar a { color: #555588; text-decoration: none; font-size: 0.8rem; padding: 6px 14px; border-radius: 6px; transition: all 0.2s; }
+  .nav-bar a:hover { color: #7c3aed; background: rgba(124,58,237,0.1); }
+  .slide-counter { color: #999999; font-size: 0.8rem; font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="header">
+    <div class="tag">Ecosysteme</div>
+    <h2>Les 7 agents specialises</h2>
+  </div>
+
+  <div class="agents-area">
+    <svg width="1150" height="530" viewBox="0 0 1150 530">
+      <!-- Row 1: LangGraph agents -->
+      <text x="190" y="30" text-anchor="middle" fill="#3b82f6" font-family="Inter" font-size="12" font-weight="700">LangGraph</text>
+      <line x1="80" y1="40" x2="300" y2="40" stroke="#3b82f6" stroke-width="1" opacity="0.3"/>
+
+      <!-- Hotel Agent -->
+      <rect x="50" y="55" width="280" height="140" rx="12" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="1.5"/>
+      <text x="95" y="92" fill="#1a1a2e" font-size="32">&#127976;</text>
+      <text x="140" y="88" fill="#2563eb" font-family="Inter" font-size="14" font-weight="700">Hotel Agent</text>
+      <text x="140" y="108" fill="#666688" font-family="Inter" font-size="10">Reservations d'hotels</text>
+      <rect x="140" y="118" width="70" height="18" rx="4" fill="rgba(59,130,246,0.15)"/>
+      <text x="175" y="131" text-anchor="middle" fill="#2563eb" font-family="Inter" font-size="8" font-weight="600">LangGraph</text>
+      <text x="75" y="170" fill="#555588" font-family="Inter" font-size="9">&#8226; 5 villes europeennes</text>
+      <text x="75" y="185" fill="#555588" font-family="Inter" font-size="9">&#8226; 3-5 etoiles, prix, disponibilite</text>
+
+      <!-- Train Agent -->
+      <rect x="50" y="210" width="280" height="140" rx="12" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="1.5"/>
+      <text x="95" y="247" fill="#1a1a2e" font-size="32">&#128646;</text>
+      <text x="140" y="243" fill="#2563eb" font-family="Inter" font-size="14" font-weight="700">Train Agent</text>
+      <text x="140" y="263" fill="#666688" font-family="Inter" font-size="10">Billets de train</text>
+      <rect x="140" y="273" width="70" height="18" rx="4" fill="rgba(59,130,246,0.15)"/>
+      <text x="175" y="286" text-anchor="middle" fill="#2563eb" font-family="Inter" font-size="8" font-weight="600">LangGraph</text>
+      <text x="75" y="325" fill="#555588" font-family="Inter" font-size="9">&#8226; Eurostar, TGV, AVE</text>
+      <text x="75" y="340" fill="#555588" font-family="Inter" font-size="9">&#8226; 1ere / 2e classe</text>
+
+      <!-- Row 2: CrewAI agents -->
+      <text x="575" y="30" text-anchor="middle" fill="#f97316" font-family="Inter" font-size="12" font-weight="700">CrewAI</text>
+      <line x1="440" y1="40" x2="710" y2="40" stroke="#f97316" stroke-width="1" opacity="0.3"/>
+
+      <!-- Flight Agent -->
+      <rect x="410" y="55" width="280" height="140" rx="12" fill="rgba(249,115,22,0.15)" stroke="#f97316" stroke-width="1.5"/>
+      <text x="455" y="92" fill="#1a1a2e" font-size="32">&#9992;</text>
+      <text x="500" y="88" fill="#ea580c" font-family="Inter" font-size="14" font-weight="700">Flight Agent</text>
+      <text x="500" y="108" fill="#666688" font-family="Inter" font-size="10">Reservation de vols</text>
+      <rect x="500" y="118" width="55" height="18" rx="4" fill="rgba(249,115,22,0.15)"/>
+      <text x="527" y="131" text-anchor="middle" fill="#ea580c" font-family="Inter" font-size="8" font-weight="600">CrewAI</text>
+      <text x="435" y="170" fill="#555588" font-family="Inter" font-size="9">&#8226; 20+ routes europeennes</text>
+      <text x="435" y="185" fill="#555588" font-family="Inter" font-size="9">&#8226; Economy / Business / First</text>
+
+      <!-- Events Agent -->
+      <rect x="410" y="210" width="280" height="140" rx="12" fill="rgba(249,115,22,0.15)" stroke="#f97316" stroke-width="1.5"/>
+      <text x="455" y="247" fill="#1a1a2e" font-size="32">&#127915;</text>
+      <text x="500" y="243" fill="#ea580c" font-family="Inter" font-size="14" font-weight="700">Events Agent</text>
+      <text x="500" y="263" fill="#666688" font-family="Inter" font-size="10">Billets spectacles & sport</text>
+      <rect x="500" y="273" width="55" height="18" rx="4" fill="rgba(249,115,22,0.15)"/>
+      <text x="527" y="286" text-anchor="middle" fill="#ea580c" font-family="Inter" font-size="8" font-weight="600">CrewAI</text>
+      <text x="435" y="325" fill="#555588" font-family="Inter" font-size="9">&#8226; Concerts, football, theatre</text>
+      <text x="435" y="340" fill="#555588" font-family="Inter" font-size="9">&#8226; Categories, prix, disponibilite</text>
+
+      <!-- Row 3: Google GenAI agents -->
+      <text x="940" y="30" text-anchor="middle" fill="#10b981" font-family="Inter" font-size="12" font-weight="700">Google GenAI</text>
+      <line x1="790" y1="40" x2="1090" y2="40" stroke="#10b981" stroke-width="1" opacity="0.3"/>
+
+      <!-- Restaurant Agent -->
+      <rect x="770" y="55" width="280" height="120" rx="12" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1.5"/>
+      <text x="815" y="87" fill="#1a1a2e" font-size="28">&#127869;</text>
+      <text x="858" y="85" fill="#059669" font-family="Inter" font-size="13" font-weight="700">Restaurant</text>
+      <text x="858" y="101" fill="#666688" font-family="Inter" font-size="9">Restaurants etoiles Michelin</text>
+      <rect x="858" y="110" width="75" height="16" rx="4" fill="rgba(16,185,129,0.15)"/>
+      <text x="895" y="122" text-anchor="middle" fill="#059669" font-family="Inter" font-size="7.5" font-weight="600">Google GenAI</text>
+      <text x="795" y="155" fill="#555588" font-family="Inter" font-size="8.5">&#8226; Gastronomie europeenne</text>
+
+      <!-- Boutique Agent -->
+      <rect x="770" y="190" width="280" height="120" rx="12" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1.5"/>
+      <text x="815" y="222" fill="#1a1a2e" font-size="28">&#128717;</text>
+      <text x="858" y="220" fill="#059669" font-family="Inter" font-size="13" font-weight="700">Boutique</text>
+      <text x="858" y="236" fill="#666688" font-family="Inter" font-size="9">Merchandising & vetements</text>
+      <rect x="858" y="245" width="75" height="16" rx="4" fill="rgba(16,185,129,0.15)"/>
+      <text x="895" y="257" text-anchor="middle" fill="#059669" font-family="Inter" font-size="7.5" font-weight="600">Google GenAI</text>
+      <text x="795" y="288" fill="#555588" font-family="Inter" font-size="8.5">&#8226; Maillots foot + tenues formelles</text>
+
+      <!-- Assurance Agent -->
+      <rect x="770" y="325" width="280" height="120" rx="12" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1.5"/>
+      <text x="815" y="357" fill="#1a1a2e" font-size="28">&#128737;</text>
+      <text x="858" y="355" fill="#059669" font-family="Inter" font-size="13" font-weight="700">Assurance</text>
+      <text x="858" y="371" fill="#666688" font-family="Inter" font-size="9">BNP Paribas Cardif</text>
+      <rect x="858" y="380" width="75" height="16" rx="4" fill="rgba(16,185,129,0.15)"/>
+      <text x="895" y="392" text-anchor="middle" fill="#059669" font-family="Inter" font-size="7.5" font-weight="600">Google GenAI</text>
+      <text x="795" y="425" fill="#555588" font-family="Inter" font-size="8.5">&#8226; 4 produits : pret, auto, habitation, sante</text>
+
+      <!-- Bottom key insight -->
+      <rect x="250" y="460" width="650" height="50" rx="12" fill="rgba(124,58,237,0.15)" stroke="#7c3aed" stroke-width="1.5"/>
+      <text x="575" y="488" text-anchor="middle" fill="#6d28d9" font-family="Inter" font-size="14" font-weight="700">3 frameworks differents, 1 seul protocole = interoperabilite totale</text>
+      <text x="575" y="503" text-anchor="middle" fill="#777799" font-family="Inter" font-size="9">Chaque agent peut etre developpe, deploye et scale independamment</text>
+    </svg>
+  </div>
+
+  <div class="nav-bar">
+    <a href="slide-04-architecture.html">&larr; Precedent</a>
+    <span class="slide-counter">5 / 9</span>
+    <a href="slide-06-flux-technique.html">Suivant &rarr;</a>
+  </div>
+</div>
+
+<script>
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); window.location.href = 'slide-06-flux-technique.html'; }
+  if (e.key === 'ArrowLeft') { window.location.href = 'slide-04-architecture.html'; }
+  if (e.key === 'Home') { window.location.href = 'index.html'; }
+});
+</script>
+</body>
+</html>

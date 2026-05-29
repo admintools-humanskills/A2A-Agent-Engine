@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A2A Protocol : Multi-Agent Synergy - Workshop</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0f0f1a;
+    color: #e0e0f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #7c3aed, #3b82f6, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    font-size: 1.1rem;
+    color: #8888aa;
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+  .slides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+  }
+  .slide-card {
+    background: #1a1a2e;
+    border: 1px solid #2a2a4a;
+    border-radius: 12px;
+    padding: 24px;
+    text-decoration: none;
+    color: #e0e0f0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .slide-card:hover {
+    border-color: #7c3aed;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.2);
+  }
+  .slide-num {
+    background: linear-gradient(135deg, #7c3aed, #3b82f6);
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .slide-info h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .slide-info p {
+    font-size: 0.85rem;
+    color: #8888aa;
+    line-height: 1.4;
+  }
+  .nav-hint {
+    margin-top: 48px;
+    padding: 16px 24px;
+    background: #1a1a2e;
+    border-radius: 10px;
+    border: 1px solid #2a2a4a;
+    font-size: 0.9rem;
+    color: #8888aa;
+  }
+  .nav-hint kbd {
+    background: #2a2a4a;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    color: #c0c0e0;
+  }
+  .start-btn {
+    display: inline-block;
+    margin-top: 32px;
+    padding: 14px 36px;
+    background: linear-gradient(135deg, #7c3aed, #3b82f6);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+  }
+  .start-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(124, 58, 237, 0.4);
+  }
+</style>
+</head>
+<body>
+
+<h1>A2A Protocol : Multi-Agent Synergy</h1>
+<p class="subtitle">Workshop Presentation &mdash; 9 Slides</p>
+
+<div class="slides-grid">
+  <a href="slide-01-titre.html" class="slide-card">
+    <div class="slide-num">01</div>
+    <div class="slide-info">
+      <h3>Titre</h3>
+      <p>A2A Protocol : orchestrer la collaboration autonome entre vos IA</p>
+    </div>
+  </a>
+  <a href="slide-02-probleme.html" class="slide-card">
+    <div class="slide-num">02</div>
+    <div class="slide-info">
+      <h3>Le Probleme</h3>
+      <p>Pourquoi un seul agent ne suffit pas</p>
+    </div>
+  </a>
+  <a href="slide-03-protocole-a2a.html" class="slide-card">
+    <div class="slide-num">03</div>
+    <div class="slide-info">
+      <h3>Le Protocole A2A</h3>
+      <p>Le HTTP des agents IA &mdash; AgentCard, SendMessage, Task, Discovery</p>
+    </div>
+  </a>
+  <a href="slide-04-architecture.html" class="slide-card">
+    <div class="slide-num">04</div>
+    <div class="slide-info">
+      <h3>Architecture</h3>
+      <p>Un concierge qui orchestre 7 specialistes</p>
+    </div>
+  </a>
+  <a href="slide-05-agents.html" class="slide-card">
+    <div class="slide-num">05</div>
+    <div class="slide-info">
+      <h3>Les 7 Agents</h3>
+      <p>Un ecosysteme complet : 3 frameworks, 1 protocole</p>
+    </div>
+  </a>
+  <a href="slide-06-flux-technique.html" class="slide-card">
+    <div class="slide-num">06</div>
+    <div class="slide-info">
+      <h3>Flux Technique</h3>
+      <p>Le parcours d'une requete de bout en bout</p>
+    </div>
+  </a>
+  <a href="slide-07-pixel-art-ui.html" class="slide-card">
+    <div class="slide-num">07</div>
+    <div class="slide-info">
+      <h3>De l'abstrait au concret</h3>
+      <p>Rendre visible ce que font vos agents</p>
+    </div>
+  </a>
+  <a href="slide-08-deploiement.html" class="slide-card">
+    <div class="slide-num">08</div>
+    <div class="slide-info">
+      <h3>Deploiement</h3>
+      <p>Du local au cloud en quelques commandes</p>
+    </div>
+  </a>
+  <a href="slide-09-enseignements.html" class="slide-card">
+    <div class="slide-num">09</div>
+    <div class="slide-info">
+      <h3>Passez a l'action</h3>
+      <p>A2A, ACP, UCP &mdash; implementez des maintenant</p>
+    </div>
+  </a>
+</div>
+
+<a href="slide-01-titre.html" class="start-btn">Demarrer la presentation</a>
+
+<div class="nav-hint">
+  Navigation : <kbd>&larr;</kbd> <kbd>&rarr;</kbd> pour naviguer entre les slides &bull; <kbd>Home</kbd> pour revenir ici
+</div>
+
+<script>
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') {
+    e.preventDefault();
+    window.location.href = 'slide-01-titre.html';
+  }
+});
+</script>
+</body>
+</html>

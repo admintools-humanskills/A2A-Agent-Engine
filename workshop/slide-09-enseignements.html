@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide 9 - Passez a l'action</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #1a1a2e;
+    color: #e0e0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .slide {
+    width: 1280px; height: 720px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+    border-radius: 16px;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .left { width: 460px; padding: 40px 38px; display: flex; flex-direction: column; justify-content: center; }
+  .right { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .tag {
+    display: inline-block; padding: 4px 14px;
+    background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 16px; font-size: 0.75rem; font-weight: 600; color: #6ee7b7;
+    margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  h2 {
+    font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;
+    background: linear-gradient(135deg, #c4b5fd, #93c5fd);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2;
+  }
+  .sub { font-size: 0.88rem; color: #7777aa; margin-bottom: 22px; font-weight: 300; line-height: 1.5; }
+  .section-title {
+    font-size: 0.72rem; font-weight: 700; color: #7777aa;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 8px; margin-top: 14px;
+  }
+  .point {
+    display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px;
+  }
+  .point-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; margin-top: 5px;
+  }
+  .point-dot.green { background: #10b981; }
+  .point-dot.blue { background: #3b82f6; }
+  .point-dot.purple { background: #7c3aed; }
+  .point-dot.orange { background: #f97316; }
+  .point-text { font-size: 0.82rem; color: #b0b0d0; line-height: 1.4; }
+  .point-text strong { color: #e0e0f0; }
+  .cta {
+    margin-top: 18px; padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(59,130,246,0.12));
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 10px;
+    text-align: center;
+  }
+  .cta-title { font-size: 0.95rem; font-weight: 700; color: #c4b5fd; margin-bottom: 4px; }
+  .cta-sub { font-size: 0.78rem; color: #8888aa; }
+  .nav-bar {
+    position: absolute; bottom: 20px; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 2;
+  }
+  .nav-bar a { color: #6666aa; text-decoration: none; font-size: 0.8rem; padding: 6px 14px; border-radius: 6px; transition: all 0.2s; }
+  .nav-bar a:hover { color: #a78bfa; background: rgba(124,58,237,0.1); }
+  .slide-counter { color: #4a4a6a; font-size: 0.8rem; font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="left">
+    <div class="tag">Passez a l'action</div>
+    <h2>A2A est pret. Vos agents<br>aussi. Et vous ?</h2>
+    <p class="sub">Les protocoles multi-agents sont matures. L'ecosysteme est la. Votre secteur a des cas d'usage concrets des aujourd'hui.</p>
+
+    <div class="section-title">Pourquoi maintenant</div>
+    <div class="point">
+      <div class="point-dot green"></div>
+      <div class="point-text"><strong>A2A est production-ready</strong> : standard ouvert Google, interoperable, deploye sur Cloud Run en minutes</div>
+    </div>
+    <div class="point">
+      <div class="point-dot green"></div>
+      <div class="point-text"><strong>ACP &amp; UCP arrivent</strong> : Agent Commerce Protocol et Universal Commerce Protocol permettront les paiements directement dans les LLMs</div>
+    </div>
+    <div class="point">
+      <div class="point-dot green"></div>
+      <div class="point-text"><strong>Avantage concurrentiel</strong> : ceux qui implementent maintenant seront en avance de 12-18 mois</div>
+    </div>
+
+    <div class="section-title">Applicable a votre secteur</div>
+    <div class="point">
+      <div class="point-dot blue"></div>
+      <div class="point-text"><strong>Banque &amp; Assurance</strong> : orchestrer souscription, conformite, pricing, gestion sinistres</div>
+    </div>
+    <div class="point">
+      <div class="point-dot blue"></div>
+      <div class="point-text"><strong>Voyage &amp; Hotellerie</strong> : concierge IA bout-en-bout (vol + hotel + activites + paiement)</div>
+    </div>
+    <div class="point">
+      <div class="point-dot blue"></div>
+      <div class="point-text"><strong>E-commerce &amp; Retail</strong> : agents shopping + recommandation + logistique + SAV</div>
+    </div>
+
+    <div class="cta">
+      <div class="cta-title">On vous accompagne</div>
+      <div class="cta-sub">De l'audit a la mise en production &mdash; parlons-en</div>
+    </div>
+  </div>
+
+  <div class="right">
+    <svg width="700" height="620" viewBox="0 0 700 620">
+      <!-- Title -->
+      <text x="350" y="30" text-anchor="middle" fill="#7777aa" font-family="Inter" font-size="12" font-weight="600">VOS CAS D'USAGE PAR SECTEUR</text>
+
+      <!-- Banking & Insurance -->
+      <rect x="20" y="50" width="320" height="155" rx="12" fill="rgba(59,130,246,0.05)" stroke="#3b82f6" stroke-width="1.2"/>
+      <rect x="20" y="50" width="320" height="30" rx="12" fill="rgba(59,130,246,0.1)"/>
+      <text x="40" y="70" fill="#93c5fd" font-family="Inter" font-size="11" font-weight="700">&#127974; Banque &amp; Assurance</text>
+
+      <text x="40" y="100" fill="#8888aa" font-family="Inter" font-size="9">Dir. Data / Dir. IA / Dir. Digital</text>
+
+      <g transform="translate(40, 115)">
+        <rect x="0" y="0" width="135" height="32" rx="5" fill="rgba(59,130,246,0.08)"/>
+        <text x="67" y="14" text-anchor="middle" fill="#93c5fd" font-family="Inter" font-size="8" font-weight="600">Agent Souscription</text>
+        <text x="67" y="26" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">KYC + scoring + offre</text>
+      </g>
+      <g transform="translate(185, 115)">
+        <rect x="0" y="0" width="135" height="32" rx="5" fill="rgba(59,130,246,0.08)"/>
+        <text x="67" y="14" text-anchor="middle" fill="#93c5fd" font-family="Inter" font-size="8" font-weight="600">Agent Sinistres</text>
+        <text x="67" y="26" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">Declaration + expertise</text>
+      </g>
+      <g transform="translate(40, 155)">
+        <rect x="0" y="0" width="135" height="32" rx="5" fill="rgba(59,130,246,0.08)"/>
+        <text x="67" y="14" text-anchor="middle" fill="#93c5fd" font-family="Inter" font-size="8" font-weight="600">Agent Conformite</text>
+        <text x="67" y="26" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">AML + RGPD + audit</text>
+      </g>
+      <g transform="translate(185, 155)">
+        <rect x="0" y="0" width="135" height="32" rx="5" fill="rgba(59,130,246,0.08)"/>
+        <text x="67" y="14" text-anchor="middle" fill="#93c5fd" font-family="Inter" font-size="8" font-weight="600">Agent Paiement</text>
+        <text x="67" y="26" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">ACP / UCP ready</text>
+      </g>
+
+      <!-- Travel & Hospitality -->
+      <rect x="360" y="50" width="320" height="155" rx="12" fill="rgba(249,115,22,0.05)" stroke="#f97316" stroke-width="1.2"/>
+      <rect x="360" y="50" width="320" height="30" rx="12" fill="rgba(249,115,22,0.1)"/>
+      <text x="380" y="70" fill="#fdba74" font-family="Inter" font-size="11" font-weight="700">&#9992; Voyage &amp; Hotellerie</text>
+
+      <text x="380" y="100" fill="#8888aa" font-family="Inter" font-size="9">Dir. E-commerce / Dir. Marketing / CDO</text>
+
+      <g transform="translate(380, 115)">
+        <rect x="0" y="0" width="135" height="32" rx="5" fill="rgba(249,115,22,0.08)"/>
+        <text x="67" y="14" text-anchor="middle" fill="#fdba74" font-family="Inter" font-size="8" font-weight="600">Agent Reservation</text>
+        <text x="67" y="26" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">Vol + hotel + train</text>
+      </g>
+      <g transform="translate(525, 115)">
+        <rect x="0" y="0" width="135" height="32" rx="5" fill="rgba(249,115,22,0.08)"/>
+        <text x="67" y="14" text-anchor="middle" fill="#fdba74" font-family="Inter" font-size="8" font-weight="600">Agent Concierge</text>
+        <text x="67" y="26" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">Activites + restos</text>
+      </g>
+      <g transform="translate(380, 155)">
+        <rect x="0" y="0" width="135" height="32" rx="5" fill="rgba(249,115,22,0.08)"/>
+        <text x="67" y="14" text-anchor="middle" fill="#fdba74" font-family="Inter" font-size="8" font-weight="600">Agent Fidelite</text>
+        <text x="67" y="26" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">Points + upgrade + offres</text>
+      </g>
+      <g transform="translate(525, 155)">
+        <rect x="0" y="0" width="135" height="32" rx="5" fill="rgba(249,115,22,0.08)"/>
+        <text x="67" y="14" text-anchor="middle" fill="#fdba74" font-family="Inter" font-size="8" font-weight="600">Agent Support</text>
+        <text x="67" y="26" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">Reclamation + suivi</text>
+      </g>
+
+      <!-- E-commerce & Retail -->
+      <rect x="20" y="225" width="320" height="155" rx="12" fill="rgba(16,185,129,0.05)" stroke="#10b981" stroke-width="1.2"/>
+      <rect x="20" y="225" width="320" height="30" rx="12" fill="rgba(16,185,129,0.1)"/>
+      <text x="40" y="245" fill="#6ee7b7" font-family="Inter" font-size="11" font-weight="700">&#128717; E-commerce &amp; Retail</text>
+
+      <text x="40" y="275" fill="#8888aa" font-family="Inter" font-size="9">Dir. Marketing / Dir. E-commerce / CTO</text>
+
+      <g transform="translate(40, 290)">
+        <rect x="0" y="0" width="135" height="32" rx="5" fill="rgba(16,185,129,0.08)"/>
+        <text x="67" y="14" text-anchor="middle" fill="#6ee7b7" font-family="Inter" font-size="8" font-weight="600">Agent Shopping</text>
+        <text x="67" y="26" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">Recherche + panier</text>
+      </g>
+      <g transform="translate(185, 290)">
+        <rect x="0" y="0" width="135" height="32" rx="5" fill="rgba(16,185,129,0.08)"/>
+        <text x="67" y="14" text-anchor="middle" fill="#6ee7b7" font-family="Inter" font-size="8" font-weight="600">Agent Logistique</text>
+        <text x="67" y="26" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">Stock + livraison</text>
+      </g>
+      <g transform="translate(40, 330)">
+        <rect x="0" y="0" width="135" height="32" rx="5" fill="rgba(16,185,129,0.08)"/>
+        <text x="67" y="14" text-anchor="middle" fill="#6ee7b7" font-family="Inter" font-size="8" font-weight="600">Agent Recommandation</text>
+        <text x="67" y="26" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">Perso + cross-sell</text>
+      </g>
+      <g transform="translate(185, 330)">
+        <rect x="0" y="0" width="135" height="32" rx="5" fill="rgba(16,185,129,0.08)"/>
+        <text x="67" y="14" text-anchor="middle" fill="#6ee7b7" font-family="Inter" font-size="8" font-weight="600">Agent Paiement</text>
+        <text x="67" y="26" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">ACP / UCP checkout</text>
+      </g>
+
+      <!-- Protocols section (right bottom) -->
+      <rect x="360" y="225" width="320" height="155" rx="12" fill="rgba(124,58,237,0.05)" stroke="#7c3aed" stroke-width="1.2"/>
+      <rect x="360" y="225" width="320" height="30" rx="12" fill="rgba(124,58,237,0.1)"/>
+      <text x="380" y="245" fill="#c4b5fd" font-family="Inter" font-size="11" font-weight="700">&#128279; Les protocoles a connaitre</text>
+
+      <!-- A2A -->
+      <g transform="translate(380, 268)">
+        <rect x="0" y="0" width="280" height="30" rx="6" fill="rgba(124,58,237,0.1)" stroke="#7c3aed" stroke-width="0.8"/>
+        <text x="15" y="19" fill="#c4b5fd" font-family="Inter" font-size="10" font-weight="700">A2A</text>
+        <text x="50" y="19" fill="#8888aa" font-family="Inter" font-size="9">Agent-to-Agent &mdash; communication inter-agents</text>
+      </g>
+      <!-- MCP -->
+      <g transform="translate(380, 304)">
+        <rect x="0" y="0" width="280" height="30" rx="6" fill="rgba(59,130,246,0.08)" stroke="#3b82f6" stroke-width="0.8"/>
+        <text x="15" y="19" fill="#93c5fd" font-family="Inter" font-size="10" font-weight="700">MCP</text>
+        <text x="55" y="19" fill="#8888aa" font-family="Inter" font-size="9">Model Context Protocol &mdash; agents + outils</text>
+      </g>
+      <!-- ACP -->
+      <g transform="translate(380, 340)">
+        <rect x="0" y="0" width="280" height="30" rx="6" fill="rgba(249,115,22,0.08)" stroke="#f97316" stroke-width="0.8"/>
+        <text x="15" y="19" fill="#fdba74" font-family="Inter" font-size="10" font-weight="700">ACP</text>
+        <text x="52" y="19" fill="#8888aa" font-family="Inter" font-size="9">Agent Commerce Protocol &mdash; paiement agent</text>
+      </g>
+
+      <!-- Timeline / Maturity bar -->
+      <rect x="20" y="405" width="660" height="80" rx="12" fill="rgba(124,58,237,0.04)" stroke="#7c3aed" stroke-width="1"/>
+      <text x="350" y="428" text-anchor="middle" fill="#c4b5fd" font-family="Inter" font-size="11" font-weight="700">FEUILLE DE ROUTE RECOMMANDEE</text>
+
+      <!-- Phase 1 -->
+      <rect x="40" y="442" width="190" height="30" rx="6" fill="rgba(16,185,129,0.1)" stroke="#10b981" stroke-width="0.8"/>
+      <text x="135" y="458" text-anchor="middle" fill="#6ee7b7" font-family="Inter" font-size="8.5" font-weight="700">T1 : POC Multi-Agent</text>
+      <text x="135" y="469" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">A2A + 2-3 agents metier</text>
+
+      <!-- Arrow -->
+      <text x="238" y="460" fill="#4a4a6a" font-family="Inter" font-size="14">&#8594;</text>
+
+      <!-- Phase 2 -->
+      <rect x="255" y="442" width="190" height="30" rx="6" fill="rgba(59,130,246,0.1)" stroke="#3b82f6" stroke-width="0.8"/>
+      <text x="350" y="458" text-anchor="middle" fill="#93c5fd" font-family="Inter" font-size="8.5" font-weight="700">T2 : Production</text>
+      <text x="350" y="469" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">Scale + auth + monitoring</text>
+
+      <!-- Arrow -->
+      <text x="453" y="460" fill="#4a4a6a" font-family="Inter" font-size="14">&#8594;</text>
+
+      <!-- Phase 3 -->
+      <rect x="470" y="442" width="190" height="30" rx="6" fill="rgba(249,115,22,0.1)" stroke="#f97316" stroke-width="0.8"/>
+      <text x="565" y="458" text-anchor="middle" fill="#fdba74" font-family="Inter" font-size="8.5" font-weight="700">T3 : Commerce IA</text>
+      <text x="565" y="469" text-anchor="middle" fill="#6666aa" font-family="Inter" font-size="7">ACP + UCP + paiements</text>
+
+      <!-- CTA Box -->
+      <rect x="100" y="510" width="500" height="85" rx="14" fill="rgba(124,58,237,0.08)" stroke="#7c3aed" stroke-width="2"/>
+
+      <text x="350" y="540" text-anchor="middle" fill="#c4b5fd" font-family="Inter" font-size="15" font-weight="800">On vous accompagne de A a Z</text>
+      <text x="350" y="560" text-anchor="middle" fill="#8888aa" font-family="Inter" font-size="10">Audit &#8594; Architecture &#8594; POC &#8594; Production &#8594; Scale</text>
+
+      <rect x="250" y="570" width="200" height="20" rx="6" fill="rgba(124,58,237,0.2)" stroke="#7c3aed" stroke-width="0.8"/>
+      <text x="350" y="584" text-anchor="middle" fill="#c4b5fd" font-family="Inter" font-size="9" font-weight="600">Parlons de votre projet</text>
+    </svg>
+  </div>
+
+  <div class="nav-bar">
+    <a href="slide-08-deploiement.html">&larr; Precedent</a>
+    <span class="slide-counter">9 / 9</span>
+    <a href="index.html">Index &#8962;</a>
+  </div>
+</div>
+
+<script>
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); window.location.href = 'index.html'; }
+  if (e.key === 'ArrowLeft') { window.location.href = 'slide-08-deploiement.html'; }
+  if (e.key === 'Home') { window.location.href = 'index.html'; }
+});
+</script>
+</body>
+</html>

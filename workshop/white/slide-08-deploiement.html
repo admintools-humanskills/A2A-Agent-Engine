@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide 8 - Deploiement</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .slide {
+    width: 1280px; height: 720px;
+    background: #ffffff;
+    border-radius: 16px; border: 1px solid #e5e7eb;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  }
+  .left { width: 400px; padding: 40px 35px; display: flex; flex-direction: column; justify-content: center; }
+  .right { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .tag {
+    display: inline-block; padding: 4px 14px;
+    background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 16px; border: 1px solid #e5e7eb; font-size: 0.75rem; font-weight: 600; color: #2563eb;
+    margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  h2 {
+    font-size: 1.5rem; font-weight: 800; margin-bottom: 8px;
+    background: linear-gradient(135deg, #7c3aed, #2563eb);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2;
+  }
+  .sub { font-size: 0.85rem; color: #777799; margin-bottom: 20px; font-weight: 300; }
+  .deploy-item {
+    display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;
+    padding: 10px 12px; border-radius: 8px;
+    background: rgba(124,58,237,0.04);
+    border: 1px solid rgba(124,58,237,0.08);
+  }
+  .deploy-icon {
+    flex-shrink: 0; font-size: 1.2rem; margin-top: 2px;
+  }
+  .deploy-text { font-size: 0.82rem; color: #444466; line-height: 1.4; }
+  .deploy-text strong { color: #1a1a2e; }
+  .deploy-text code {
+    background: rgba(124,58,237,0.15); padding: 1px 5px; border-radius: 3px;
+    font-size: 0.72rem; color: #6d28d9;
+  }
+  .cost-note {
+    margin-top: 16px; padding: 10px 14px;
+    background: rgba(16,185,129,0.06);
+    border: 1px solid rgba(16,185,129,0.15);
+    border-radius: 8px;
+    font-size: 0.8rem; color: #059669;
+  }
+  .nav-bar {
+    position: absolute; bottom: 20px; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 2;
+  }
+  .nav-bar a { color: #555588; text-decoration: none; font-size: 0.8rem; padding: 6px 14px; border-radius: 6px; transition: all 0.2s; }
+  .nav-bar a:hover { color: #7c3aed; background: rgba(124,58,237,0.1); }
+  .slide-counter { color: #999999; font-size: 0.8rem; font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="left">
+    <div class="tag">Infrastructure</div>
+    <h2>Deploiement & Infra</h2>
+    <p class="sub">Du local au cloud en quelques commandes</p>
+
+    <div class="deploy-item">
+      <div class="deploy-icon">&#9729;</div>
+      <div class="deploy-text"><strong>7 agents sur Cloud Run</strong><br>Docker, auto-scaling, URLs publiques<br><code>deploy_agents_cloudrun.sh</code></div>
+    </div>
+    <div class="deploy-item">
+      <div class="deploy-icon">&#129302;</div>
+      <div class="deploy-text"><strong>Concierge sur Vertex AI</strong><br>Agent Engine managed, Gemini 2.5 Flash<br><code>deploy_to_agent_engine.py</code></div>
+    </div>
+    <div class="deploy-item">
+      <div class="deploy-icon">&#127760;</div>
+      <div class="deploy-text"><strong>UI FastAPI + WebSocket</strong><br>Deployable n'importe ou<br><code>pixel_ui_server.py</code></div>
+    </div>
+
+    <div class="cost-note">
+      &#128176; <strong>Cout optimise</strong> : Gemini Flash = economique, Cloud Run = pay-per-request
+    </div>
+  </div>
+
+  <div class="right">
+    <svg width="760" height="600" viewBox="0 0 760 600">
+      <!-- Google Cloud Platform zone -->
+      <rect x="30" y="20" width="700" height="560" rx="16" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="1" stroke-dasharray="8,4"/>
+      <text x="380" y="50" text-anchor="middle" fill="#3b82f6" font-family="Inter" font-size="13" font-weight="700">Google Cloud Platform</text>
+
+      <!-- Vertex AI Agent Engine -->
+      <rect x="230" y="75" width="300" height="100" rx="12" fill="rgba(124,58,237,0.15)" stroke="#7c3aed" stroke-width="1.5"/>
+      <text x="380" y="100" text-anchor="middle" fill="#6d28d9" font-family="Inter" font-size="13" font-weight="700">Vertex AI Agent Engine</text>
+      <text x="380" y="118" text-anchor="middle" fill="#666688" font-family="Inter" font-size="9">Managed Runtime</text>
+
+      <!-- Concierge inside -->
+      <rect x="270" y="130" width="220" height="32" rx="6" fill="rgba(124,58,237,0.15)" stroke="#7c3aed" stroke-width="0.8"/>
+      <text x="380" y="148" text-anchor="middle" fill="#7c3aed" font-family="Inter" font-size="9" font-weight="600">Concierge ADK + Gemini 2.5 Flash</text>
+      <text x="380" y="160" text-anchor="middle" fill="#777799" font-family="Inter" font-size="7">purchasing_agent.py</text>
+
+      <!-- Arrow down to Cloud Run zone -->
+      <line x1="380" y1="175" x2="380" y2="215" stroke="#7c3aed" stroke-width="1.5" opacity="0.5"/>
+      <text x="395" y="200" fill="#7c3aed" font-family="Inter" font-size="8" font-weight="500">A2A</text>
+
+      <!-- Cloud Run zone -->
+      <rect x="50" y="220" width="660" height="280" rx="14" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="1"/>
+      <text x="380" y="248" text-anchor="middle" fill="#3b82f6" font-family="Inter" font-size="12" font-weight="700">Cloud Run Services</text>
+      <text x="380" y="264" text-anchor="middle" fill="#555588" font-family="Inter" font-size="8">Auto-scaling &bull; Docker &bull; HTTPS</text>
+
+      <!-- Row 1 of services -->
+      <g>
+        <!-- Hotel -->
+        <rect x="75" y="280" width="130" height="80" rx="8" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="1"/>
+        <text x="140" y="303" text-anchor="middle" fill="#2563eb" font-family="Inter" font-size="10" font-weight="600">&#127976; Hotel</text>
+        <text x="140" y="318" text-anchor="middle" fill="#555588" font-family="Inter" font-size="7.5">LangGraph</text>
+        <rect x="88" y="330" width="104" height="16" rx="3" fill="rgba(59,130,246,0.1)"/>
+        <text x="140" y="342" text-anchor="middle" fill="#4a6aaa" font-family="monospace" font-size="6">hotel-agent-xxx.run.app</text>
+        <circle cx="195" cy="290" r="4" fill="#10b981"/>
+      </g>
+
+      <g>
+        <!-- Flight -->
+        <rect x="220" y="280" width="130" height="80" rx="8" fill="rgba(249,115,22,0.15)" stroke="#f97316" stroke-width="1"/>
+        <text x="285" y="303" text-anchor="middle" fill="#ea580c" font-family="Inter" font-size="10" font-weight="600">&#9992; Vol</text>
+        <text x="285" y="318" text-anchor="middle" fill="#555588" font-family="Inter" font-size="7.5">CrewAI</text>
+        <rect x="233" y="330" width="104" height="16" rx="3" fill="rgba(249,115,22,0.1)"/>
+        <text x="285" y="342" text-anchor="middle" fill="#8a6a3a" font-family="monospace" font-size="6">flight-agent-xxx.run.app</text>
+        <circle cx="340" cy="290" r="4" fill="#10b981"/>
+      </g>
+
+      <g>
+        <!-- Train -->
+        <rect x="365" y="280" width="130" height="80" rx="8" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="1"/>
+        <text x="430" y="303" text-anchor="middle" fill="#2563eb" font-family="Inter" font-size="10" font-weight="600">&#128646; Train</text>
+        <text x="430" y="318" text-anchor="middle" fill="#555588" font-family="Inter" font-size="7.5">LangGraph</text>
+        <rect x="378" y="330" width="104" height="16" rx="3" fill="rgba(59,130,246,0.1)"/>
+        <text x="430" y="342" text-anchor="middle" fill="#4a6aaa" font-family="monospace" font-size="6">train-agent-xxx.run.app</text>
+        <circle cx="485" cy="290" r="4" fill="#10b981"/>
+      </g>
+
+      <g>
+        <!-- Events -->
+        <rect x="510" y="280" width="130" height="80" rx="8" fill="rgba(249,115,22,0.15)" stroke="#f97316" stroke-width="1"/>
+        <text x="575" y="303" text-anchor="middle" fill="#ea580c" font-family="Inter" font-size="10" font-weight="600">&#127915; Events</text>
+        <text x="575" y="318" text-anchor="middle" fill="#555588" font-family="Inter" font-size="7.5">CrewAI</text>
+        <rect x="523" y="330" width="104" height="16" rx="3" fill="rgba(249,115,22,0.1)"/>
+        <text x="575" y="342" text-anchor="middle" fill="#8a6a3a" font-family="monospace" font-size="6">ticket-agent-xxx.run.app</text>
+        <circle cx="630" cy="290" r="4" fill="#10b981"/>
+      </g>
+
+      <!-- Row 2 of services -->
+      <g>
+        <!-- Restaurant -->
+        <rect x="120" y="380" width="130" height="80" rx="8" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1"/>
+        <text x="185" y="403" text-anchor="middle" fill="#059669" font-family="Inter" font-size="10" font-weight="600">&#127869; Restaurant</text>
+        <text x="185" y="418" text-anchor="middle" fill="#555588" font-family="Inter" font-size="7.5">Google GenAI</text>
+        <rect x="133" y="430" width="104" height="16" rx="3" fill="rgba(16,185,129,0.1)"/>
+        <text x="185" y="442" text-anchor="middle" fill="#3a7a5a" font-family="monospace" font-size="6">restaurant-xxx.run.app</text>
+        <circle cx="240" cy="390" r="4" fill="#10b981"/>
+      </g>
+
+      <g>
+        <!-- Boutique -->
+        <rect x="310" y="380" width="130" height="80" rx="8" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1"/>
+        <text x="375" y="403" text-anchor="middle" fill="#059669" font-family="Inter" font-size="10" font-weight="600">&#128717; Boutique</text>
+        <text x="375" y="418" text-anchor="middle" fill="#555588" font-family="Inter" font-size="7.5">Google GenAI</text>
+        <rect x="323" y="430" width="104" height="16" rx="3" fill="rgba(16,185,129,0.1)"/>
+        <text x="375" y="442" text-anchor="middle" fill="#3a7a5a" font-family="monospace" font-size="6">merch-agent-xxx.run.app</text>
+        <circle cx="430" cy="390" r="4" fill="#10b981"/>
+      </g>
+
+      <g>
+        <!-- Assurance -->
+        <rect x="500" y="380" width="130" height="80" rx="8" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1"/>
+        <text x="565" y="403" text-anchor="middle" fill="#059669" font-family="Inter" font-size="10" font-weight="600">&#128737; Assurance</text>
+        <text x="565" y="418" text-anchor="middle" fill="#555588" font-family="Inter" font-size="7.5">Google GenAI</text>
+        <rect x="513" y="430" width="104" height="16" rx="3" fill="rgba(16,185,129,0.1)"/>
+        <text x="565" y="442" text-anchor="middle" fill="#3a7a5a" font-family="monospace" font-size="6">insurance-xxx.run.app</text>
+        <circle cx="620" cy="390" r="4" fill="#10b981"/>
+      </g>
+
+      <!-- Green dots legend -->
+      <g transform="translate(50, 510)">
+        <circle cx="5" cy="5" r="4" fill="#10b981"/>
+        <text x="15" y="9" fill="#059669" font-family="Inter" font-size="8">= instance active</text>
+      </g>
+
+      <!-- Deploy scripts -->
+      <rect x="50" y="530" width="300" height="38" rx="8" fill="rgba(124,58,237,0.15)" stroke="#7c3aed" stroke-width="0.8"/>
+      <text x="65" y="548" fill="#7c3aed" font-family="monospace" font-size="8">$ ./deploy_agents_cloudrun.sh</text>
+      <text x="65" y="562" fill="#777799" font-family="Inter" font-size="7">Deploie les 7 agents en une commande</text>
+
+      <rect x="370" y="530" width="300" height="38" rx="8" fill="rgba(124,58,237,0.15)" stroke="#7c3aed" stroke-width="0.8"/>
+      <text x="385" y="548" fill="#7c3aed" font-family="monospace" font-size="8">$ python deploy_to_agent_engine.py</text>
+      <text x="385" y="562" fill="#777799" font-family="Inter" font-size="7">Deploie le concierge sur Vertex AI</text>
+    </svg>
+  </div>
+
+  <div class="nav-bar">
+    <a href="slide-07-pixel-art-ui.html">&larr; Precedent</a>
+    <span class="slide-counter">8 / 9</span>
+    <a href="slide-09-enseignements.html">Suivant &rarr;</a>
+  </div>
+</div>
+
+<script>
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); window.location.href = 'slide-09-enseignements.html'; }
+  if (e.key === 'ArrowLeft') { window.location.href = 'slide-07-pixel-art-ui.html'; }
+  if (e.key === 'Home') { window.location.href = 'index.html'; }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide 1 - A2A Protocol : Multi-Agent Synergy</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #1a1a2e;
+    color: #e0e0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .slide {
+    width: 1280px;
+    height: 720px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .bg-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    animation: pulse 6s ease-in-out infinite;
+  }
+  .bg-glow.purple { background: #7c3aed; top: -200px; left: -100px; }
+  .bg-glow.blue { background: #3b82f6; bottom: -200px; right: -100px; animation-delay: 3s; }
+  .bg-glow.orange { background: #f97316; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 1.5s; opacity: 0.08; }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.15; }
+    50% { transform: scale(1.15); opacity: 0.2; }
+  }
+  .content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 60px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 6px 18px;
+    background: rgba(124, 58, 237, 0.2);
+    border: 1px solid rgba(124, 58, 237, 0.4);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #a78bfa;
+    margin-bottom: 32px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #c4b5fd, #93c5fd, #fdba74);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .subtitle {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #8888bb;
+    margin-bottom: 48px;
+  }
+  .speaker {
+    font-size: 1rem;
+    color: #6666aa;
+    margin-top: 24px;
+  }
+  .nav-bar {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    z-index: 2;
+  }
+  .nav-bar a {
+    color: #6666aa;
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .nav-bar a:hover { color: #a78bfa; background: rgba(124,58,237,0.1); }
+  .slide-counter {
+    color: #4a4a6a;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  /* SVG Network Diagram */
+  .network-svg { margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="bg-glow purple"></div>
+  <div class="bg-glow blue"></div>
+  <div class="bg-glow orange"></div>
+
+  <div class="content">
+    <div class="badge">Google A2A Protocol</div>
+    <h1>A2A Protocol : orchestrer la<br>collaboration autonome entre vos IA</h1>
+    <p class="subtitle">Multi-Agent Synergy</p>
+
+    <svg class="network-svg" width="520" height="140" viewBox="0 0 520 140">
+      <!-- Central node -->
+      <circle cx="260" cy="70" r="28" fill="none" stroke="#7c3aed" stroke-width="2.5" opacity="0.9"/>
+      <text x="260" y="75" text-anchor="middle" fill="#c4b5fd" font-family="Inter" font-size="11" font-weight="600">Concierge</text>
+
+      <!-- Agent nodes -->
+      <g opacity="0.7">
+        <circle cx="60" cy="35" r="20" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+        <text x="60" y="39" text-anchor="middle" fill="#93c5fd" font-family="Inter" font-size="9">Hotel</text>
+        <line x1="80" y1="42" x2="232" y2="65" stroke="#3b82f6" stroke-width="1" opacity="0.4" stroke-dasharray="4,3"/>
+
+        <circle cx="100" cy="120" r="20" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+        <text x="100" y="124" text-anchor="middle" fill="#93c5fd" font-family="Inter" font-size="9">Vol</text>
+        <line x1="118" y1="112" x2="238" y2="82" stroke="#3b82f6" stroke-width="1" opacity="0.4" stroke-dasharray="4,3"/>
+
+        <circle cx="170" cy="20" r="20" fill="none" stroke="#f97316" stroke-width="1.5"/>
+        <text x="170" y="24" text-anchor="middle" fill="#fdba74" font-family="Inter" font-size="9">Train</text>
+        <line x1="188" y1="28" x2="240" y2="52" stroke="#f97316" stroke-width="1" opacity="0.4" stroke-dasharray="4,3"/>
+
+        <circle cx="350" cy="20" r="20" fill="none" stroke="#f97316" stroke-width="1.5"/>
+        <text x="350" y="24" text-anchor="middle" fill="#fdba74" font-family="Inter" font-size="8">Events</text>
+        <line x1="332" y1="28" x2="280" y2="52" stroke="#f97316" stroke-width="1" opacity="0.4" stroke-dasharray="4,3"/>
+
+        <circle cx="420" cy="120" r="20" fill="none" stroke="#10b981" stroke-width="1.5"/>
+        <text x="420" y="124" text-anchor="middle" fill="#6ee7b7" font-family="Inter" font-size="8">Resto</text>
+        <line x1="402" y1="112" x2="282" y2="82" stroke="#10b981" stroke-width="1" opacity="0.4" stroke-dasharray="4,3"/>
+
+        <circle cx="460" cy="35" r="20" fill="none" stroke="#10b981" stroke-width="1.5"/>
+        <text x="460" y="39" text-anchor="middle" fill="#6ee7b7" font-family="Inter" font-size="8">Shop</text>
+        <line x1="440" y1="42" x2="288" y2="65" stroke="#10b981" stroke-width="1" opacity="0.4" stroke-dasharray="4,3"/>
+
+        <circle cx="200" cy="130" r="20" fill="none" stroke="#10b981" stroke-width="1.5"/>
+        <text x="200" y="134" text-anchor="middle" fill="#6ee7b7" font-family="Inter" font-size="8">Assur.</text>
+        <line x1="216" y1="118" x2="246" y2="90" stroke="#10b981" stroke-width="1" opacity="0.4" stroke-dasharray="4,3"/>
+      </g>
+
+      <!-- A2A labels on lines -->
+      <text x="155" y="60" fill="#4a4a6a" font-family="Inter" font-size="7" transform="rotate(-10,155,60)">A2A</text>
+      <text x="370" y="60" fill="#4a4a6a" font-family="Inter" font-size="7" transform="rotate(10,370,60)">A2A</text>
+    </svg>
+
+    <p class="speaker">Workshop A2A Agent Engine</p>
+  </div>
+
+  <div class="nav-bar">
+    <a href="index.html">&larr; Index</a>
+    <span class="slide-counter">1 / 9</span>
+    <a href="slide-02-probleme.html">Suivant &rarr;</a>
+  </div>
+</div>
+
+<script>
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); window.location.href = 'slide-02-probleme.html'; }
+  if (e.key === 'ArrowLeft') { window.location.href = 'index.html'; }
+  if (e.key === 'Home') { window.location.href = 'index.html'; }
+});
+</script>
+</body>
+</html>
