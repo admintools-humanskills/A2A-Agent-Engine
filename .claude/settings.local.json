@@ -6,7 +6,23 @@
       "WebFetch(domain:console.cloud.google.com)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:marketplace.visualstudio.com)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "WebFetch(domain:genkit.dev)",
+      "WebFetch(domain:pypi.org)",
+      "WebFetch(domain:elevate-agency.com)",
+      "WebFetch(domain:brandfetch.com)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(grep:*)",
+      "Bash(pip show:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(wc:*)",
+      "Bash(xargs cat:*)",
+      "Bash(dpkg:*)",
+      "Bash(apt list:*)",
+      "Bash(python3:*)"
     ]
   }
 }
